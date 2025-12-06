@@ -8,25 +8,62 @@ class _ChatList extends StatelessWidget {
     return '${txt.substring(0, cap)}…';
   }
 
+  String _dateLabel(DateTime date) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final thatDay = DateTime(date.year, date.month, date.day);
+    final diff = today.difference(thatDay).inDays;
+    if (diff == 0) return 'Today';
+    if (diff == 1) return 'Yesterday';
+    return DateFormat('dd MMM yyyy').format(date);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final messages = ChatMessage.dummyMessages;
-    return ListView(
-      padding: const EdgeInsets.only(bottom: 8),
-      children: [
-        const SizedBox(height: 8),
-        const _DateChip(text: 'Today'),
-        const SizedBox(height: 16),
-        for (final m in messages) ...[
-          _MessageTile(
-            handle: m.senderName.getValue(),
-            text: _capText(m.text.getValue()),
-            time: m.createdAt.formattedTime,
-            isMe: m.isMe,
-          ),
-          const SizedBox(height: 12),
-        ],
-      ],
+    return BlocBuilder<RoomBloc, RoomState>(
+      buildWhen: (previous, current) => previous.messages != current.messages,
+      builder: (context, state) {
+        final messages = state.messages;
+        if (messages.isEmpty) {
+          return ListView(
+            padding: const EdgeInsets.only(bottom: 8),
+            children: const [SizedBox(height: 8)],
+          );
+        }
+
+        final grouped = <String, List<ChatMessage>>{};
+        for (final m in messages) {
+          final label = _dateLabel(m.createdAt.dateTime);
+          grouped.putIfAbsent(label, () => []).add(m);
+        }
+
+        final dayLabels = grouped.keys.toList()
+          ..sort((a, b) {
+            final da = grouped[a]!.first.createdAt.dateTime;
+            final db = grouped[b]!.first.createdAt.dateTime;
+            return da.compareTo(db);
+          });
+
+        return ListView(
+          padding: const EdgeInsets.only(bottom: 8),
+          children: [
+            const SizedBox(height: 8),
+            for (final label in dayLabels) ...[
+              _DateChip(text: label),
+              const SizedBox(height: 16),
+              for (final m in grouped[label]!) ...[
+                _MessageTile(
+                  handle: m.senderName.getValue(),
+                  text: _capText(m.text.getValue()),
+                  time: m.createdAt.formattedTime,
+                  isMe: m.isMe,
+                ),
+                const SizedBox(height: 12),
+              ],
+            ],
+          ],
+        );
+      },
     );
   }
 }
@@ -82,7 +119,7 @@ class _MessageTile extends StatelessWidget {
         Padding(
           padding: EdgeInsets.only(left: isMe ? 48 : 0, right: isMe ? 0 : 48),
           child: Text(
-            isMe ? 'You' : handle,
+            isMe ? 'You' : '@$handle',
             style: BaseTextStyles.poppinsMediumSemiBold.copyWith(
               color: BaseColors.white,
             ),

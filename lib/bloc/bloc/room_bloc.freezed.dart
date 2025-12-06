@@ -55,12 +55,15 @@ extension RoomEventPatterns on RoomEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Init value)?  init,TResult Function( _OnRoomIdEntered value)?  onRoomIdEntered,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Init value)?  init,TResult Function( _OnRoomIdEntered value)?  onRoomIdEntered,TResult Function( _WatchMessagesStarted value)?  watchMessagesStarted,TResult Function( _MessagesReceived value)?  messagesReceived,TResult Function( _SendMessagePressed value)?  sendMessagePressed,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _Init() when init != null:
 return init(_that);case _OnRoomIdEntered() when onRoomIdEntered != null:
-return onRoomIdEntered(_that);case _:
+return onRoomIdEntered(_that);case _WatchMessagesStarted() when watchMessagesStarted != null:
+return watchMessagesStarted(_that);case _MessagesReceived() when messagesReceived != null:
+return messagesReceived(_that);case _SendMessagePressed() when sendMessagePressed != null:
+return sendMessagePressed(_that);case _:
   return orElse();
 
 }
@@ -78,12 +81,15 @@ return onRoomIdEntered(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Init value)  init,required TResult Function( _OnRoomIdEntered value)  onRoomIdEntered,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Init value)  init,required TResult Function( _OnRoomIdEntered value)  onRoomIdEntered,required TResult Function( _WatchMessagesStarted value)  watchMessagesStarted,required TResult Function( _MessagesReceived value)  messagesReceived,required TResult Function( _SendMessagePressed value)  sendMessagePressed,}){
 final _that = this;
 switch (_that) {
 case _Init():
 return init(_that);case _OnRoomIdEntered():
-return onRoomIdEntered(_that);case _:
+return onRoomIdEntered(_that);case _WatchMessagesStarted():
+return watchMessagesStarted(_that);case _MessagesReceived():
+return messagesReceived(_that);case _SendMessagePressed():
+return sendMessagePressed(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -100,12 +106,15 @@ return onRoomIdEntered(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Init value)?  init,TResult? Function( _OnRoomIdEntered value)?  onRoomIdEntered,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Init value)?  init,TResult? Function( _OnRoomIdEntered value)?  onRoomIdEntered,TResult? Function( _WatchMessagesStarted value)?  watchMessagesStarted,TResult? Function( _MessagesReceived value)?  messagesReceived,TResult? Function( _SendMessagePressed value)?  sendMessagePressed,}){
 final _that = this;
 switch (_that) {
 case _Init() when init != null:
 return init(_that);case _OnRoomIdEntered() when onRoomIdEntered != null:
-return onRoomIdEntered(_that);case _:
+return onRoomIdEntered(_that);case _WatchMessagesStarted() when watchMessagesStarted != null:
+return watchMessagesStarted(_that);case _MessagesReceived() when messagesReceived != null:
+return messagesReceived(_that);case _SendMessagePressed() when sendMessagePressed != null:
+return sendMessagePressed(_that);case _:
   return null;
 
 }
@@ -122,11 +131,14 @@ return onRoomIdEntered(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  init,TResult Function( RoomBlocFieldType field,  String value)?  onRoomIdEntered,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  init,TResult Function( RoomBlocFieldType field,  String value)?  onRoomIdEntered,TResult Function()?  watchMessagesStarted,TResult Function( Either<ApiFailure, List<ChatMessage>> failureOrMessages)?  messagesReceived,TResult Function( String text)?  sendMessagePressed,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Init() when init != null:
 return init();case _OnRoomIdEntered() when onRoomIdEntered != null:
-return onRoomIdEntered(_that.field,_that.value);case _:
+return onRoomIdEntered(_that.field,_that.value);case _WatchMessagesStarted() when watchMessagesStarted != null:
+return watchMessagesStarted();case _MessagesReceived() when messagesReceived != null:
+return messagesReceived(_that.failureOrMessages);case _SendMessagePressed() when sendMessagePressed != null:
+return sendMessagePressed(_that.text);case _:
   return orElse();
 
 }
@@ -144,11 +156,14 @@ return onRoomIdEntered(_that.field,_that.value);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  init,required TResult Function( RoomBlocFieldType field,  String value)  onRoomIdEntered,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  init,required TResult Function( RoomBlocFieldType field,  String value)  onRoomIdEntered,required TResult Function()  watchMessagesStarted,required TResult Function( Either<ApiFailure, List<ChatMessage>> failureOrMessages)  messagesReceived,required TResult Function( String text)  sendMessagePressed,}) {final _that = this;
 switch (_that) {
 case _Init():
 return init();case _OnRoomIdEntered():
-return onRoomIdEntered(_that.field,_that.value);case _:
+return onRoomIdEntered(_that.field,_that.value);case _WatchMessagesStarted():
+return watchMessagesStarted();case _MessagesReceived():
+return messagesReceived(_that.failureOrMessages);case _SendMessagePressed():
+return sendMessagePressed(_that.text);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -165,11 +180,14 @@ return onRoomIdEntered(_that.field,_that.value);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  init,TResult? Function( RoomBlocFieldType field,  String value)?  onRoomIdEntered,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  init,TResult? Function( RoomBlocFieldType field,  String value)?  onRoomIdEntered,TResult? Function()?  watchMessagesStarted,TResult? Function( Either<ApiFailure, List<ChatMessage>> failureOrMessages)?  messagesReceived,TResult? Function( String text)?  sendMessagePressed,}) {final _that = this;
 switch (_that) {
 case _Init() when init != null:
 return init();case _OnRoomIdEntered() when onRoomIdEntered != null:
-return onRoomIdEntered(_that.field,_that.value);case _:
+return onRoomIdEntered(_that.field,_that.value);case _WatchMessagesStarted() when watchMessagesStarted != null:
+return watchMessagesStarted();case _MessagesReceived() when messagesReceived != null:
+return messagesReceived(_that.failureOrMessages);case _SendMessagePressed() when sendMessagePressed != null:
+return sendMessagePressed(_that.text);case _:
   return null;
 
 }
@@ -278,9 +296,173 @@ as String,
 }
 
 /// @nodoc
+
+
+class _WatchMessagesStarted implements RoomEvent {
+  const _WatchMessagesStarted();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _WatchMessagesStarted);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'RoomEvent.watchMessagesStarted()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class _MessagesReceived implements RoomEvent {
+  const _MessagesReceived({required this.failureOrMessages});
+  
+
+ final  Either<ApiFailure, List<ChatMessage>> failureOrMessages;
+
+/// Create a copy of RoomEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$MessagesReceivedCopyWith<_MessagesReceived> get copyWith => __$MessagesReceivedCopyWithImpl<_MessagesReceived>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MessagesReceived&&(identical(other.failureOrMessages, failureOrMessages) || other.failureOrMessages == failureOrMessages));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,failureOrMessages);
+
+@override
+String toString() {
+  return 'RoomEvent.messagesReceived(failureOrMessages: $failureOrMessages)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$MessagesReceivedCopyWith<$Res> implements $RoomEventCopyWith<$Res> {
+  factory _$MessagesReceivedCopyWith(_MessagesReceived value, $Res Function(_MessagesReceived) _then) = __$MessagesReceivedCopyWithImpl;
+@useResult
+$Res call({
+ Either<ApiFailure, List<ChatMessage>> failureOrMessages
+});
+
+
+
+
+}
+/// @nodoc
+class __$MessagesReceivedCopyWithImpl<$Res>
+    implements _$MessagesReceivedCopyWith<$Res> {
+  __$MessagesReceivedCopyWithImpl(this._self, this._then);
+
+  final _MessagesReceived _self;
+  final $Res Function(_MessagesReceived) _then;
+
+/// Create a copy of RoomEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? failureOrMessages = null,}) {
+  return _then(_MessagesReceived(
+failureOrMessages: null == failureOrMessages ? _self.failureOrMessages : failureOrMessages // ignore: cast_nullable_to_non_nullable
+as Either<ApiFailure, List<ChatMessage>>,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _SendMessagePressed implements RoomEvent {
+  const _SendMessagePressed({required this.text});
+  
+
+ final  String text;
+
+/// Create a copy of RoomEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$SendMessagePressedCopyWith<_SendMessagePressed> get copyWith => __$SendMessagePressedCopyWithImpl<_SendMessagePressed>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SendMessagePressed&&(identical(other.text, text) || other.text == text));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,text);
+
+@override
+String toString() {
+  return 'RoomEvent.sendMessagePressed(text: $text)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$SendMessagePressedCopyWith<$Res> implements $RoomEventCopyWith<$Res> {
+  factory _$SendMessagePressedCopyWith(_SendMessagePressed value, $Res Function(_SendMessagePressed) _then) = __$SendMessagePressedCopyWithImpl;
+@useResult
+$Res call({
+ String text
+});
+
+
+
+
+}
+/// @nodoc
+class __$SendMessagePressedCopyWithImpl<$Res>
+    implements _$SendMessagePressedCopyWith<$Res> {
+  __$SendMessagePressedCopyWithImpl(this._self, this._then);
+
+  final _SendMessagePressed _self;
+  final $Res Function(_SendMessagePressed) _then;
+
+/// Create a copy of RoomEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? text = null,}) {
+  return _then(_SendMessagePressed(
+text: null == text ? _self.text : text // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
 mixin _$RoomState {
 
- String get roomId; bool get roomJoined; bool get isLoading; RoomInfo get roomInfo; RoomMember get currentIdentity; Option<Either<ApiFailure, dynamic>> get apiFailureOrSuccess;
+ String get roomId; bool get roomJoined; bool get isLoading; RoomInfo get roomInfo; RoomMember get currentIdentity; List<ChatMessage> get messages; Option<Either<ApiFailure, dynamic>> get apiFailureOrSuccess;
 /// Create a copy of RoomState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -291,16 +473,16 @@ $RoomStateCopyWith<RoomState> get copyWith => _$RoomStateCopyWithImpl<RoomState>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is RoomState&&(identical(other.roomId, roomId) || other.roomId == roomId)&&(identical(other.roomJoined, roomJoined) || other.roomJoined == roomJoined)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.roomInfo, roomInfo) || other.roomInfo == roomInfo)&&(identical(other.currentIdentity, currentIdentity) || other.currentIdentity == currentIdentity)&&(identical(other.apiFailureOrSuccess, apiFailureOrSuccess) || other.apiFailureOrSuccess == apiFailureOrSuccess));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RoomState&&(identical(other.roomId, roomId) || other.roomId == roomId)&&(identical(other.roomJoined, roomJoined) || other.roomJoined == roomJoined)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.roomInfo, roomInfo) || other.roomInfo == roomInfo)&&(identical(other.currentIdentity, currentIdentity) || other.currentIdentity == currentIdentity)&&const DeepCollectionEquality().equals(other.messages, messages)&&(identical(other.apiFailureOrSuccess, apiFailureOrSuccess) || other.apiFailureOrSuccess == apiFailureOrSuccess));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,roomId,roomJoined,isLoading,roomInfo,currentIdentity,apiFailureOrSuccess);
+int get hashCode => Object.hash(runtimeType,roomId,roomJoined,isLoading,roomInfo,currentIdentity,const DeepCollectionEquality().hash(messages),apiFailureOrSuccess);
 
 @override
 String toString() {
-  return 'RoomState(roomId: $roomId, roomJoined: $roomJoined, isLoading: $isLoading, roomInfo: $roomInfo, currentIdentity: $currentIdentity, apiFailureOrSuccess: $apiFailureOrSuccess)';
+  return 'RoomState(roomId: $roomId, roomJoined: $roomJoined, isLoading: $isLoading, roomInfo: $roomInfo, currentIdentity: $currentIdentity, messages: $messages, apiFailureOrSuccess: $apiFailureOrSuccess)';
 }
 
 
@@ -311,7 +493,7 @@ abstract mixin class $RoomStateCopyWith<$Res>  {
   factory $RoomStateCopyWith(RoomState value, $Res Function(RoomState) _then) = _$RoomStateCopyWithImpl;
 @useResult
 $Res call({
- String roomId, bool roomJoined, bool isLoading, RoomInfo roomInfo, RoomMember currentIdentity, Option<Either<ApiFailure, dynamic>> apiFailureOrSuccess
+ String roomId, bool roomJoined, bool isLoading, RoomInfo roomInfo, RoomMember currentIdentity, List<ChatMessage> messages, Option<Either<ApiFailure, dynamic>> apiFailureOrSuccess
 });
 
 
@@ -328,14 +510,15 @@ class _$RoomStateCopyWithImpl<$Res>
 
 /// Create a copy of RoomState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? roomId = null,Object? roomJoined = null,Object? isLoading = null,Object? roomInfo = null,Object? currentIdentity = null,Object? apiFailureOrSuccess = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? roomId = null,Object? roomJoined = null,Object? isLoading = null,Object? roomInfo = null,Object? currentIdentity = null,Object? messages = null,Object? apiFailureOrSuccess = null,}) {
   return _then(_self.copyWith(
 roomId: null == roomId ? _self.roomId : roomId // ignore: cast_nullable_to_non_nullable
 as String,roomJoined: null == roomJoined ? _self.roomJoined : roomJoined // ignore: cast_nullable_to_non_nullable
 as bool,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,roomInfo: null == roomInfo ? _self.roomInfo : roomInfo // ignore: cast_nullable_to_non_nullable
 as RoomInfo,currentIdentity: null == currentIdentity ? _self.currentIdentity : currentIdentity // ignore: cast_nullable_to_non_nullable
-as RoomMember,apiFailureOrSuccess: null == apiFailureOrSuccess ? _self.apiFailureOrSuccess : apiFailureOrSuccess // ignore: cast_nullable_to_non_nullable
+as RoomMember,messages: null == messages ? _self.messages : messages // ignore: cast_nullable_to_non_nullable
+as List<ChatMessage>,apiFailureOrSuccess: null == apiFailureOrSuccess ? _self.apiFailureOrSuccess : apiFailureOrSuccess // ignore: cast_nullable_to_non_nullable
 as Option<Either<ApiFailure, dynamic>>,
   ));
 }
@@ -439,10 +622,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String roomId,  bool roomJoined,  bool isLoading,  RoomInfo roomInfo,  RoomMember currentIdentity,  Option<Either<ApiFailure, dynamic>> apiFailureOrSuccess)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String roomId,  bool roomJoined,  bool isLoading,  RoomInfo roomInfo,  RoomMember currentIdentity,  List<ChatMessage> messages,  Option<Either<ApiFailure, dynamic>> apiFailureOrSuccess)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _RoomState() when $default != null:
-return $default(_that.roomId,_that.roomJoined,_that.isLoading,_that.roomInfo,_that.currentIdentity,_that.apiFailureOrSuccess);case _:
+return $default(_that.roomId,_that.roomJoined,_that.isLoading,_that.roomInfo,_that.currentIdentity,_that.messages,_that.apiFailureOrSuccess);case _:
   return orElse();
 
 }
@@ -460,10 +643,10 @@ return $default(_that.roomId,_that.roomJoined,_that.isLoading,_that.roomInfo,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String roomId,  bool roomJoined,  bool isLoading,  RoomInfo roomInfo,  RoomMember currentIdentity,  Option<Either<ApiFailure, dynamic>> apiFailureOrSuccess)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String roomId,  bool roomJoined,  bool isLoading,  RoomInfo roomInfo,  RoomMember currentIdentity,  List<ChatMessage> messages,  Option<Either<ApiFailure, dynamic>> apiFailureOrSuccess)  $default,) {final _that = this;
 switch (_that) {
 case _RoomState():
-return $default(_that.roomId,_that.roomJoined,_that.isLoading,_that.roomInfo,_that.currentIdentity,_that.apiFailureOrSuccess);case _:
+return $default(_that.roomId,_that.roomJoined,_that.isLoading,_that.roomInfo,_that.currentIdentity,_that.messages,_that.apiFailureOrSuccess);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -480,10 +663,10 @@ return $default(_that.roomId,_that.roomJoined,_that.isLoading,_that.roomInfo,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String roomId,  bool roomJoined,  bool isLoading,  RoomInfo roomInfo,  RoomMember currentIdentity,  Option<Either<ApiFailure, dynamic>> apiFailureOrSuccess)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String roomId,  bool roomJoined,  bool isLoading,  RoomInfo roomInfo,  RoomMember currentIdentity,  List<ChatMessage> messages,  Option<Either<ApiFailure, dynamic>> apiFailureOrSuccess)?  $default,) {final _that = this;
 switch (_that) {
 case _RoomState() when $default != null:
-return $default(_that.roomId,_that.roomJoined,_that.isLoading,_that.roomInfo,_that.currentIdentity,_that.apiFailureOrSuccess);case _:
+return $default(_that.roomId,_that.roomJoined,_that.isLoading,_that.roomInfo,_that.currentIdentity,_that.messages,_that.apiFailureOrSuccess);case _:
   return null;
 
 }
@@ -495,7 +678,7 @@ return $default(_that.roomId,_that.roomJoined,_that.isLoading,_that.roomInfo,_th
 
 
 class _RoomState extends RoomState {
-  const _RoomState({required this.roomId, required this.roomJoined, required this.isLoading, required this.roomInfo, required this.currentIdentity, required this.apiFailureOrSuccess}): super._();
+  const _RoomState({required this.roomId, required this.roomJoined, required this.isLoading, required this.roomInfo, required this.currentIdentity, required final  List<ChatMessage> messages, required this.apiFailureOrSuccess}): _messages = messages,super._();
   
 
 @override final  String roomId;
@@ -503,6 +686,13 @@ class _RoomState extends RoomState {
 @override final  bool isLoading;
 @override final  RoomInfo roomInfo;
 @override final  RoomMember currentIdentity;
+ final  List<ChatMessage> _messages;
+@override List<ChatMessage> get messages {
+  if (_messages is EqualUnmodifiableListView) return _messages;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_messages);
+}
+
 @override final  Option<Either<ApiFailure, dynamic>> apiFailureOrSuccess;
 
 /// Create a copy of RoomState
@@ -515,16 +705,16 @@ _$RoomStateCopyWith<_RoomState> get copyWith => __$RoomStateCopyWithImpl<_RoomSt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RoomState&&(identical(other.roomId, roomId) || other.roomId == roomId)&&(identical(other.roomJoined, roomJoined) || other.roomJoined == roomJoined)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.roomInfo, roomInfo) || other.roomInfo == roomInfo)&&(identical(other.currentIdentity, currentIdentity) || other.currentIdentity == currentIdentity)&&(identical(other.apiFailureOrSuccess, apiFailureOrSuccess) || other.apiFailureOrSuccess == apiFailureOrSuccess));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RoomState&&(identical(other.roomId, roomId) || other.roomId == roomId)&&(identical(other.roomJoined, roomJoined) || other.roomJoined == roomJoined)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.roomInfo, roomInfo) || other.roomInfo == roomInfo)&&(identical(other.currentIdentity, currentIdentity) || other.currentIdentity == currentIdentity)&&const DeepCollectionEquality().equals(other._messages, _messages)&&(identical(other.apiFailureOrSuccess, apiFailureOrSuccess) || other.apiFailureOrSuccess == apiFailureOrSuccess));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,roomId,roomJoined,isLoading,roomInfo,currentIdentity,apiFailureOrSuccess);
+int get hashCode => Object.hash(runtimeType,roomId,roomJoined,isLoading,roomInfo,currentIdentity,const DeepCollectionEquality().hash(_messages),apiFailureOrSuccess);
 
 @override
 String toString() {
-  return 'RoomState(roomId: $roomId, roomJoined: $roomJoined, isLoading: $isLoading, roomInfo: $roomInfo, currentIdentity: $currentIdentity, apiFailureOrSuccess: $apiFailureOrSuccess)';
+  return 'RoomState(roomId: $roomId, roomJoined: $roomJoined, isLoading: $isLoading, roomInfo: $roomInfo, currentIdentity: $currentIdentity, messages: $messages, apiFailureOrSuccess: $apiFailureOrSuccess)';
 }
 
 
@@ -535,7 +725,7 @@ abstract mixin class _$RoomStateCopyWith<$Res> implements $RoomStateCopyWith<$Re
   factory _$RoomStateCopyWith(_RoomState value, $Res Function(_RoomState) _then) = __$RoomStateCopyWithImpl;
 @override @useResult
 $Res call({
- String roomId, bool roomJoined, bool isLoading, RoomInfo roomInfo, RoomMember currentIdentity, Option<Either<ApiFailure, dynamic>> apiFailureOrSuccess
+ String roomId, bool roomJoined, bool isLoading, RoomInfo roomInfo, RoomMember currentIdentity, List<ChatMessage> messages, Option<Either<ApiFailure, dynamic>> apiFailureOrSuccess
 });
 
 
@@ -552,14 +742,15 @@ class __$RoomStateCopyWithImpl<$Res>
 
 /// Create a copy of RoomState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? roomId = null,Object? roomJoined = null,Object? isLoading = null,Object? roomInfo = null,Object? currentIdentity = null,Object? apiFailureOrSuccess = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? roomId = null,Object? roomJoined = null,Object? isLoading = null,Object? roomInfo = null,Object? currentIdentity = null,Object? messages = null,Object? apiFailureOrSuccess = null,}) {
   return _then(_RoomState(
 roomId: null == roomId ? _self.roomId : roomId // ignore: cast_nullable_to_non_nullable
 as String,roomJoined: null == roomJoined ? _self.roomJoined : roomJoined // ignore: cast_nullable_to_non_nullable
 as bool,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,roomInfo: null == roomInfo ? _self.roomInfo : roomInfo // ignore: cast_nullable_to_non_nullable
 as RoomInfo,currentIdentity: null == currentIdentity ? _self.currentIdentity : currentIdentity // ignore: cast_nullable_to_non_nullable
-as RoomMember,apiFailureOrSuccess: null == apiFailureOrSuccess ? _self.apiFailureOrSuccess : apiFailureOrSuccess // ignore: cast_nullable_to_non_nullable
+as RoomMember,messages: null == messages ? _self._messages : messages // ignore: cast_nullable_to_non_nullable
+as List<ChatMessage>,apiFailureOrSuccess: null == apiFailureOrSuccess ? _self.apiFailureOrSuccess : apiFailureOrSuccess // ignore: cast_nullable_to_non_nullable
 as Option<Either<ApiFailure, dynamic>>,
   ));
 }

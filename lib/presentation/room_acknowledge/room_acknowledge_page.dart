@@ -98,7 +98,10 @@ class _ContinueCTA extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: () => context.replace(AppRoutes.room),
+        onPressed: () {
+          context.read<RoomBloc>().add(const RoomEvent.watchMessagesStarted());
+          context.replace(AppRoutes.room);
+        },
         child: Text(
           'Acknowledge and continue',
           style: BaseTextStyles.poppinsExtraLargeBold.copyWith(

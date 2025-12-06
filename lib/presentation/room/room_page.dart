@@ -1,3 +1,6 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
+import 'package:rumour/bloc/bloc/room_bloc.dart';
 import 'package:rumour/domain/room/entities/chat_message.dart';
 import 'package:rumour/presentation/core/custom/custom_app_bar.dart';
 import 'package:rumour/presentation/core/custom/custom_icon_button.dart';
@@ -21,12 +24,19 @@ class RoomPage extends StatelessWidget {
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
-            children: const [
-              CustomAppBar(title: 'Room #5812'),
-              SizedBox(height: 16),
-              Expanded(child: _ChatList()),
-              _ChatComposer(),
-              SizedBox(height: 16),
+            children: [
+              BlocBuilder<RoomBloc, RoomState>(
+                buildWhen: (previous, current) =>
+                    previous.roomId != current.roomId,
+                builder: (context, state) {
+                  final id = state.roomId.isEmpty ? '----' : state.roomId;
+                  return CustomAppBar(title: 'Room #$id');
+                },
+              ),
+              const SizedBox(height: 16),
+              const Expanded(child: _ChatList()),
+              const _ChatComposer(),
+              const SizedBox(height: 16),
             ],
           ),
         ),

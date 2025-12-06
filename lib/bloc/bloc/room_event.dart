@@ -8,6 +8,15 @@ class RoomEvent with _$RoomEvent {
     required RoomBlocFieldType field,
     required String value,
   }) = _OnRoomIdEntered;
+
+  const factory RoomEvent.watchMessagesStarted() = _WatchMessagesStarted;
+
+  const factory RoomEvent.messagesReceived({
+    required Either<ApiFailure, List<ChatMessage>> failureOrMessages,
+  }) = _MessagesReceived;
+
+  const factory RoomEvent.sendMessagePressed({required String text}) =
+      _SendMessagePressed;
 }
 
 enum RoomBlocFieldType { roomId }
