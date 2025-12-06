@@ -280,7 +280,7 @@ as String,
 /// @nodoc
 mixin _$RoomState {
 
- String get roomId; bool get roomJoined; bool get isLoading; RoomInfo get roomInfo; Option<Either<ApiFailure, dynamic>> get apiFailureOrSuccess;
+ String get roomId; bool get roomJoined; bool get isLoading; RoomInfo get roomInfo; RoomMember get currentIdentity; Option<Either<ApiFailure, dynamic>> get apiFailureOrSuccess;
 /// Create a copy of RoomState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -291,16 +291,16 @@ $RoomStateCopyWith<RoomState> get copyWith => _$RoomStateCopyWithImpl<RoomState>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is RoomState&&(identical(other.roomId, roomId) || other.roomId == roomId)&&(identical(other.roomJoined, roomJoined) || other.roomJoined == roomJoined)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.roomInfo, roomInfo) || other.roomInfo == roomInfo)&&(identical(other.apiFailureOrSuccess, apiFailureOrSuccess) || other.apiFailureOrSuccess == apiFailureOrSuccess));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RoomState&&(identical(other.roomId, roomId) || other.roomId == roomId)&&(identical(other.roomJoined, roomJoined) || other.roomJoined == roomJoined)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.roomInfo, roomInfo) || other.roomInfo == roomInfo)&&(identical(other.currentIdentity, currentIdentity) || other.currentIdentity == currentIdentity)&&(identical(other.apiFailureOrSuccess, apiFailureOrSuccess) || other.apiFailureOrSuccess == apiFailureOrSuccess));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,roomId,roomJoined,isLoading,roomInfo,apiFailureOrSuccess);
+int get hashCode => Object.hash(runtimeType,roomId,roomJoined,isLoading,roomInfo,currentIdentity,apiFailureOrSuccess);
 
 @override
 String toString() {
-  return 'RoomState(roomId: $roomId, roomJoined: $roomJoined, isLoading: $isLoading, roomInfo: $roomInfo, apiFailureOrSuccess: $apiFailureOrSuccess)';
+  return 'RoomState(roomId: $roomId, roomJoined: $roomJoined, isLoading: $isLoading, roomInfo: $roomInfo, currentIdentity: $currentIdentity, apiFailureOrSuccess: $apiFailureOrSuccess)';
 }
 
 
@@ -311,11 +311,11 @@ abstract mixin class $RoomStateCopyWith<$Res>  {
   factory $RoomStateCopyWith(RoomState value, $Res Function(RoomState) _then) = _$RoomStateCopyWithImpl;
 @useResult
 $Res call({
- String roomId, bool roomJoined, bool isLoading, RoomInfo roomInfo, Option<Either<ApiFailure, dynamic>> apiFailureOrSuccess
+ String roomId, bool roomJoined, bool isLoading, RoomInfo roomInfo, RoomMember currentIdentity, Option<Either<ApiFailure, dynamic>> apiFailureOrSuccess
 });
 
 
-$RoomInfoCopyWith<$Res> get roomInfo;
+$RoomInfoCopyWith<$Res> get roomInfo;$RoomMemberCopyWith<$Res> get currentIdentity;
 
 }
 /// @nodoc
@@ -328,13 +328,14 @@ class _$RoomStateCopyWithImpl<$Res>
 
 /// Create a copy of RoomState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? roomId = null,Object? roomJoined = null,Object? isLoading = null,Object? roomInfo = null,Object? apiFailureOrSuccess = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? roomId = null,Object? roomJoined = null,Object? isLoading = null,Object? roomInfo = null,Object? currentIdentity = null,Object? apiFailureOrSuccess = null,}) {
   return _then(_self.copyWith(
 roomId: null == roomId ? _self.roomId : roomId // ignore: cast_nullable_to_non_nullable
 as String,roomJoined: null == roomJoined ? _self.roomJoined : roomJoined // ignore: cast_nullable_to_non_nullable
 as bool,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,roomInfo: null == roomInfo ? _self.roomInfo : roomInfo // ignore: cast_nullable_to_non_nullable
-as RoomInfo,apiFailureOrSuccess: null == apiFailureOrSuccess ? _self.apiFailureOrSuccess : apiFailureOrSuccess // ignore: cast_nullable_to_non_nullable
+as RoomInfo,currentIdentity: null == currentIdentity ? _self.currentIdentity : currentIdentity // ignore: cast_nullable_to_non_nullable
+as RoomMember,apiFailureOrSuccess: null == apiFailureOrSuccess ? _self.apiFailureOrSuccess : apiFailureOrSuccess // ignore: cast_nullable_to_non_nullable
 as Option<Either<ApiFailure, dynamic>>,
   ));
 }
@@ -346,6 +347,15 @@ $RoomInfoCopyWith<$Res> get roomInfo {
   
   return $RoomInfoCopyWith<$Res>(_self.roomInfo, (value) {
     return _then(_self.copyWith(roomInfo: value));
+  });
+}/// Create a copy of RoomState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$RoomMemberCopyWith<$Res> get currentIdentity {
+  
+  return $RoomMemberCopyWith<$Res>(_self.currentIdentity, (value) {
+    return _then(_self.copyWith(currentIdentity: value));
   });
 }
 }
@@ -429,10 +439,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String roomId,  bool roomJoined,  bool isLoading,  RoomInfo roomInfo,  Option<Either<ApiFailure, dynamic>> apiFailureOrSuccess)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String roomId,  bool roomJoined,  bool isLoading,  RoomInfo roomInfo,  RoomMember currentIdentity,  Option<Either<ApiFailure, dynamic>> apiFailureOrSuccess)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _RoomState() when $default != null:
-return $default(_that.roomId,_that.roomJoined,_that.isLoading,_that.roomInfo,_that.apiFailureOrSuccess);case _:
+return $default(_that.roomId,_that.roomJoined,_that.isLoading,_that.roomInfo,_that.currentIdentity,_that.apiFailureOrSuccess);case _:
   return orElse();
 
 }
@@ -450,10 +460,10 @@ return $default(_that.roomId,_that.roomJoined,_that.isLoading,_that.roomInfo,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String roomId,  bool roomJoined,  bool isLoading,  RoomInfo roomInfo,  Option<Either<ApiFailure, dynamic>> apiFailureOrSuccess)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String roomId,  bool roomJoined,  bool isLoading,  RoomInfo roomInfo,  RoomMember currentIdentity,  Option<Either<ApiFailure, dynamic>> apiFailureOrSuccess)  $default,) {final _that = this;
 switch (_that) {
 case _RoomState():
-return $default(_that.roomId,_that.roomJoined,_that.isLoading,_that.roomInfo,_that.apiFailureOrSuccess);case _:
+return $default(_that.roomId,_that.roomJoined,_that.isLoading,_that.roomInfo,_that.currentIdentity,_that.apiFailureOrSuccess);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -470,10 +480,10 @@ return $default(_that.roomId,_that.roomJoined,_that.isLoading,_that.roomInfo,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String roomId,  bool roomJoined,  bool isLoading,  RoomInfo roomInfo,  Option<Either<ApiFailure, dynamic>> apiFailureOrSuccess)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String roomId,  bool roomJoined,  bool isLoading,  RoomInfo roomInfo,  RoomMember currentIdentity,  Option<Either<ApiFailure, dynamic>> apiFailureOrSuccess)?  $default,) {final _that = this;
 switch (_that) {
 case _RoomState() when $default != null:
-return $default(_that.roomId,_that.roomJoined,_that.isLoading,_that.roomInfo,_that.apiFailureOrSuccess);case _:
+return $default(_that.roomId,_that.roomJoined,_that.isLoading,_that.roomInfo,_that.currentIdentity,_that.apiFailureOrSuccess);case _:
   return null;
 
 }
@@ -485,13 +495,14 @@ return $default(_that.roomId,_that.roomJoined,_that.isLoading,_that.roomInfo,_th
 
 
 class _RoomState extends RoomState {
-  const _RoomState({required this.roomId, required this.roomJoined, required this.isLoading, required this.roomInfo, required this.apiFailureOrSuccess}): super._();
+  const _RoomState({required this.roomId, required this.roomJoined, required this.isLoading, required this.roomInfo, required this.currentIdentity, required this.apiFailureOrSuccess}): super._();
   
 
 @override final  String roomId;
 @override final  bool roomJoined;
 @override final  bool isLoading;
 @override final  RoomInfo roomInfo;
+@override final  RoomMember currentIdentity;
 @override final  Option<Either<ApiFailure, dynamic>> apiFailureOrSuccess;
 
 /// Create a copy of RoomState
@@ -504,16 +515,16 @@ _$RoomStateCopyWith<_RoomState> get copyWith => __$RoomStateCopyWithImpl<_RoomSt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RoomState&&(identical(other.roomId, roomId) || other.roomId == roomId)&&(identical(other.roomJoined, roomJoined) || other.roomJoined == roomJoined)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.roomInfo, roomInfo) || other.roomInfo == roomInfo)&&(identical(other.apiFailureOrSuccess, apiFailureOrSuccess) || other.apiFailureOrSuccess == apiFailureOrSuccess));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RoomState&&(identical(other.roomId, roomId) || other.roomId == roomId)&&(identical(other.roomJoined, roomJoined) || other.roomJoined == roomJoined)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.roomInfo, roomInfo) || other.roomInfo == roomInfo)&&(identical(other.currentIdentity, currentIdentity) || other.currentIdentity == currentIdentity)&&(identical(other.apiFailureOrSuccess, apiFailureOrSuccess) || other.apiFailureOrSuccess == apiFailureOrSuccess));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,roomId,roomJoined,isLoading,roomInfo,apiFailureOrSuccess);
+int get hashCode => Object.hash(runtimeType,roomId,roomJoined,isLoading,roomInfo,currentIdentity,apiFailureOrSuccess);
 
 @override
 String toString() {
-  return 'RoomState(roomId: $roomId, roomJoined: $roomJoined, isLoading: $isLoading, roomInfo: $roomInfo, apiFailureOrSuccess: $apiFailureOrSuccess)';
+  return 'RoomState(roomId: $roomId, roomJoined: $roomJoined, isLoading: $isLoading, roomInfo: $roomInfo, currentIdentity: $currentIdentity, apiFailureOrSuccess: $apiFailureOrSuccess)';
 }
 
 
@@ -524,11 +535,11 @@ abstract mixin class _$RoomStateCopyWith<$Res> implements $RoomStateCopyWith<$Re
   factory _$RoomStateCopyWith(_RoomState value, $Res Function(_RoomState) _then) = __$RoomStateCopyWithImpl;
 @override @useResult
 $Res call({
- String roomId, bool roomJoined, bool isLoading, RoomInfo roomInfo, Option<Either<ApiFailure, dynamic>> apiFailureOrSuccess
+ String roomId, bool roomJoined, bool isLoading, RoomInfo roomInfo, RoomMember currentIdentity, Option<Either<ApiFailure, dynamic>> apiFailureOrSuccess
 });
 
 
-@override $RoomInfoCopyWith<$Res> get roomInfo;
+@override $RoomInfoCopyWith<$Res> get roomInfo;@override $RoomMemberCopyWith<$Res> get currentIdentity;
 
 }
 /// @nodoc
@@ -541,13 +552,14 @@ class __$RoomStateCopyWithImpl<$Res>
 
 /// Create a copy of RoomState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? roomId = null,Object? roomJoined = null,Object? isLoading = null,Object? roomInfo = null,Object? apiFailureOrSuccess = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? roomId = null,Object? roomJoined = null,Object? isLoading = null,Object? roomInfo = null,Object? currentIdentity = null,Object? apiFailureOrSuccess = null,}) {
   return _then(_RoomState(
 roomId: null == roomId ? _self.roomId : roomId // ignore: cast_nullable_to_non_nullable
 as String,roomJoined: null == roomJoined ? _self.roomJoined : roomJoined // ignore: cast_nullable_to_non_nullable
 as bool,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,roomInfo: null == roomInfo ? _self.roomInfo : roomInfo // ignore: cast_nullable_to_non_nullable
-as RoomInfo,apiFailureOrSuccess: null == apiFailureOrSuccess ? _self.apiFailureOrSuccess : apiFailureOrSuccess // ignore: cast_nullable_to_non_nullable
+as RoomInfo,currentIdentity: null == currentIdentity ? _self.currentIdentity : currentIdentity // ignore: cast_nullable_to_non_nullable
+as RoomMember,apiFailureOrSuccess: null == apiFailureOrSuccess ? _self.apiFailureOrSuccess : apiFailureOrSuccess // ignore: cast_nullable_to_non_nullable
 as Option<Either<ApiFailure, dynamic>>,
   ));
 }
@@ -560,6 +572,15 @@ $RoomInfoCopyWith<$Res> get roomInfo {
   
   return $RoomInfoCopyWith<$Res>(_self.roomInfo, (value) {
     return _then(_self.copyWith(roomInfo: value));
+  });
+}/// Create a copy of RoomState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$RoomMemberCopyWith<$Res> get currentIdentity {
+  
+  return $RoomMemberCopyWith<$Res>(_self.currentIdentity, (value) {
+    return _then(_self.copyWith(currentIdentity: value));
   });
 }
 }

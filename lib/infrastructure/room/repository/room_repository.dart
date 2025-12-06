@@ -27,7 +27,9 @@ class RoomRepository implements IRoomRepository {
   });
 
   @override
-  Future<Either<ApiFailure, RoomInfo>> joinRoom(String roomId) async {
+  Future<Either<ApiFailure, (RoomInfo, RoomMember)>> joinRoom(
+    String roomId,
+  ) async {
     try {
       final user = await _getOrSignInUser();
       final exists = await remote.checkRoomExists(roomId);
@@ -47,8 +49,9 @@ class RoomRepository implements IRoomRepository {
           name: member.name.getOrCrash(),
         );
       });
+      final identity = identityResult.getOrElse(() => RoomMember.empty());
 
-      return right(roomInfoDto.toDomain());
+      return right((roomInfoDto.toDomain(), identity));
     } catch (e) {
       return left(ApiFailure.serverError(e.toString()));
     }

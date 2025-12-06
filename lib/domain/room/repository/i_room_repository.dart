@@ -5,7 +5,7 @@ import 'package:rumour/domain/room/entities/room_info.dart';
 import 'package:rumour/domain/room/entities/room_member.dart';
 
 abstract class IRoomRepository {
-  Future<Either<ApiFailure, RoomInfo>> joinRoom(String roomId);
+  Future<Either<ApiFailure, (RoomInfo, RoomMember)>> joinRoom(String roomId);
 
   Future<Either<ApiFailure, RoomMember>> getOrCreateLocalIdentity(
     String roomId,

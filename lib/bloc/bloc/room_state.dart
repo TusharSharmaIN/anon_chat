@@ -9,6 +9,7 @@ abstract class RoomState with _$RoomState {
     required bool roomJoined,
     required bool isLoading,
     required RoomInfo roomInfo,
+    required RoomMember currentIdentity,
     required Option<Either<ApiFailure, dynamic>> apiFailureOrSuccess,
   }) = _RoomState;
 
@@ -17,6 +18,7 @@ abstract class RoomState with _$RoomState {
     roomJoined: false,
     isLoading: false,
     roomInfo: RoomInfo.empty(),
+    currentIdentity: RoomMember.empty(),
     apiFailureOrSuccess: none(),
   );
 }

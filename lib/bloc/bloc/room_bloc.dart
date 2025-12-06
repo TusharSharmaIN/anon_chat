@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rumour/domain/room/entities/room_info.dart';
+import 'package:rumour/domain/room/entities/room_member.dart';
 import 'package:rumour/domain/room/repository/i_room_repository.dart';
 
 part 'room_event.dart';
@@ -44,18 +45,19 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
             emit(
               state.copyWith(
                 isLoading: false,
-                apiFailureOrSuccess: some(left(failure)),
+                apiFailureOrSuccess: optionOf(failureOrSuccess),
               ),
             );
           },
-          (roomInfo) {
+          (response) {
             emit(
               state.copyWith(
                 isLoading: false,
                 roomId: value,
                 roomJoined: true,
-                roomInfo: roomInfo,
-                apiFailureOrSuccess: some(right(roomInfo)),
+                roomInfo: response.$1,
+                currentIdentity: response.$2,
+                apiFailureOrSuccess: none(),
               ),
             );
           },
