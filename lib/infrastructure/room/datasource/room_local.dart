@@ -9,7 +9,7 @@ class RoomLocalDataSource {
   static const _boxName = 'room_identity_box';
   static const _secureKey = 'room_identity_secure_key';
 
-  late Box _encryptedBox;
+  late Box<RoomIdentityDto> _encryptedBox;
   final SecureStorage secureStorage;
 
   RoomLocalDataSource({required this.secureStorage});
@@ -31,17 +31,17 @@ class RoomLocalDataSource {
     final encoded = await secureStorage.read(key: _secureKey);
     final encryptionKey = base64Url.decode(encoded);
 
-    _encryptedBox = await Hive.openBox(
+    _encryptedBox = await Hive.openBox<RoomIdentityDto>(
       _boxName,
       encryptionCipher: HiveAesCipher(encryptionKey),
     );
   }
 
-  Future<RoomIdentityDto> get(String roomId) async {
+  Future<RoomIdentityDto?> get(String roomId) async {
     try {
       final key = 'identity_$roomId';
 
-      return await _encryptedBox.get(
+      return _encryptedBox.get(
         key,
         defaultValue: RoomIdentityDto(uid: '', name: ''),
       );

@@ -12,7 +12,7 @@ _ChatMessageDto _$ChatMessageDtoFromJson(Map<String, dynamic> json) =>
       text: json['text'] as String,
       senderUid: json['senderUid'] as String,
       senderName: json['senderName'] as String,
-      createdAt: json['createdAt'] as String,
+      createdAt: const TimestampConverter().fromJson(json['createdAt']),
     );
 
 Map<String, dynamic> _$ChatMessageDtoToJson(_ChatMessageDto instance) =>
@@ -21,5 +21,5 @@ Map<String, dynamic> _$ChatMessageDtoToJson(_ChatMessageDto instance) =>
       'text': instance.text,
       'senderUid': instance.senderUid,
       'senderName': instance.senderName,
-      'createdAt': instance.createdAt,
+      'createdAt': const TimestampConverter().toJson(instance.createdAt),
     };

@@ -98,26 +98,5 @@ class DateTimeValue extends ValueObject<String> {
   /// back in here:
   String get formattedDate => DateFormat('dd MMM yyyy').format(dateTime);
 
-  String get formattedDateDDMMYYYY => DateFormat('dd/MM/yy').format(dateTime);
-
-  String get formattedDateTime =>
-      DateFormat('dd MMM yyyy, hh:mm a').format(dateTime);
-
-  String get formattedMonthDateYearTime =>
-      DateFormat('MMM dd, yyyy, hh:mm a').format(dateTime);
-
-  String get formattedMonthDateYear =>
-      DateFormat('MMM dd, yyyy').format(dateTime);
-
-  String get formattedFullDateTimeUTC =>
-      DateFormat('dd MMM yyyy, HH:mm UTC').format(dateTime);
-
   String get formattedTime => DateFormat('HH:mm a').format(dateTime);
-
-  String get formattedDateYYYYMMDD => DateFormat('yyyy-MM-dd').format(dateTime);
-
-  String get formattedDateYYYYMM => DateFormat('yyyy-MM').format(dateTime);
-
-  String get formattedDateDDMMYYHHMM =>
-      DateFormat('dd-MM-yy, HH:mm').format(dateTime);
 }

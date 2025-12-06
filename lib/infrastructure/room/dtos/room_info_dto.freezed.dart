@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$RoomInfoDto {
 
-@JsonKey(name: 'roomId') String get roomId;@JsonKey(name: 'createdByUid') String get createdByUid;@JsonKey(name: 'createdAt') String get createdAt;
+@JsonKey(name: 'roomId') String get roomId;@JsonKey(name: 'createdByUid') String get createdByUid;@TimestampConverter()@JsonKey(name: 'createdAt') Timestamp get createdAt;
 /// Create a copy of RoomInfoDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $RoomInfoDtoCopyWith<$Res>  {
   factory $RoomInfoDtoCopyWith(RoomInfoDto value, $Res Function(RoomInfoDto) _then) = _$RoomInfoDtoCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'roomId') String roomId,@JsonKey(name: 'createdByUid') String createdByUid,@JsonKey(name: 'createdAt') String createdAt
+@JsonKey(name: 'roomId') String roomId,@JsonKey(name: 'createdByUid') String createdByUid,@TimestampConverter()@JsonKey(name: 'createdAt') Timestamp createdAt
 });
 
 
@@ -70,7 +70,7 @@ class _$RoomInfoDtoCopyWithImpl<$Res>
 roomId: null == roomId ? _self.roomId : roomId // ignore: cast_nullable_to_non_nullable
 as String,createdByUid: null == createdByUid ? _self.createdByUid : createdByUid // ignore: cast_nullable_to_non_nullable
 as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
-as String,
+as Timestamp,
   ));
 }
 
@@ -155,7 +155,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'roomId')  String roomId, @JsonKey(name: 'createdByUid')  String createdByUid, @JsonKey(name: 'createdAt')  String createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'roomId')  String roomId, @JsonKey(name: 'createdByUid')  String createdByUid, @TimestampConverter()@JsonKey(name: 'createdAt')  Timestamp createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _RoomInfoDto() when $default != null:
 return $default(_that.roomId,_that.createdByUid,_that.createdAt);case _:
@@ -176,7 +176,7 @@ return $default(_that.roomId,_that.createdByUid,_that.createdAt);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'roomId')  String roomId, @JsonKey(name: 'createdByUid')  String createdByUid, @JsonKey(name: 'createdAt')  String createdAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'roomId')  String roomId, @JsonKey(name: 'createdByUid')  String createdByUid, @TimestampConverter()@JsonKey(name: 'createdAt')  Timestamp createdAt)  $default,) {final _that = this;
 switch (_that) {
 case _RoomInfoDto():
 return $default(_that.roomId,_that.createdByUid,_that.createdAt);case _:
@@ -196,7 +196,7 @@ return $default(_that.roomId,_that.createdByUid,_that.createdAt);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'roomId')  String roomId, @JsonKey(name: 'createdByUid')  String createdByUid, @JsonKey(name: 'createdAt')  String createdAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'roomId')  String roomId, @JsonKey(name: 'createdByUid')  String createdByUid, @TimestampConverter()@JsonKey(name: 'createdAt')  Timestamp createdAt)?  $default,) {final _that = this;
 switch (_that) {
 case _RoomInfoDto() when $default != null:
 return $default(_that.roomId,_that.createdByUid,_that.createdAt);case _:
@@ -211,12 +211,12 @@ return $default(_that.roomId,_that.createdByUid,_that.createdAt);case _:
 @JsonSerializable()
 
 class _RoomInfoDto extends RoomInfoDto {
-  const _RoomInfoDto({@JsonKey(name: 'roomId') required this.roomId, @JsonKey(name: 'createdByUid') required this.createdByUid, @JsonKey(name: 'createdAt') required this.createdAt}): super._();
+  const _RoomInfoDto({@JsonKey(name: 'roomId') required this.roomId, @JsonKey(name: 'createdByUid') required this.createdByUid, @TimestampConverter()@JsonKey(name: 'createdAt') required this.createdAt}): super._();
   factory _RoomInfoDto.fromJson(Map<String, dynamic> json) => _$RoomInfoDtoFromJson(json);
 
 @override@JsonKey(name: 'roomId') final  String roomId;
 @override@JsonKey(name: 'createdByUid') final  String createdByUid;
-@override@JsonKey(name: 'createdAt') final  String createdAt;
+@override@TimestampConverter()@JsonKey(name: 'createdAt') final  Timestamp createdAt;
 
 /// Create a copy of RoomInfoDto
 /// with the given fields replaced by the non-null parameter values.
@@ -251,7 +251,7 @@ abstract mixin class _$RoomInfoDtoCopyWith<$Res> implements $RoomInfoDtoCopyWith
   factory _$RoomInfoDtoCopyWith(_RoomInfoDto value, $Res Function(_RoomInfoDto) _then) = __$RoomInfoDtoCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'roomId') String roomId,@JsonKey(name: 'createdByUid') String createdByUid,@JsonKey(name: 'createdAt') String createdAt
+@JsonKey(name: 'roomId') String roomId,@JsonKey(name: 'createdByUid') String createdByUid,@TimestampConverter()@JsonKey(name: 'createdAt') Timestamp createdAt
 });
 
 
@@ -273,7 +273,7 @@ class __$RoomInfoDtoCopyWithImpl<$Res>
 roomId: null == roomId ? _self.roomId : roomId // ignore: cast_nullable_to_non_nullable
 as String,createdByUid: null == createdByUid ? _self.createdByUid : createdByUid // ignore: cast_nullable_to_non_nullable
 as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
-as String,
+as Timestamp,
   ));
 }
 

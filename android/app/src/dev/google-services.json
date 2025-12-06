@@ -7,6 +7,25 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:479868364454:android:53fab88ef1b8e303dbb667",
+        "android_client_info": {
+          "package_name": "com.tusharsharmain.rumour"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOYCRzQUBUiUNQbTAUJIh3fzWgcMsir7A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:479868364454:android:209d614de4065b9bdbb667",
         "android_client_info": {
           "package_name": "com.tusharsharmain.rumour.dev"

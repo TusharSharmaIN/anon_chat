@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ChatMessageDto {
 
-@JsonKey(name: 'messageId') String get messageId;@JsonKey(name: 'text') String get text;@JsonKey(name: 'senderUid') String get senderUid;@JsonKey(name: 'senderName') String get senderName;@JsonKey(name: 'createdAt') String get createdAt;
+@JsonKey(name: 'messageId') String get messageId;@JsonKey(name: 'text') String get text;@JsonKey(name: 'senderUid') String get senderUid;@JsonKey(name: 'senderName') String get senderName;@TimestampConverter()@JsonKey(name: 'createdAt') Timestamp get createdAt;
 /// Create a copy of ChatMessageDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $ChatMessageDtoCopyWith<$Res>  {
   factory $ChatMessageDtoCopyWith(ChatMessageDto value, $Res Function(ChatMessageDto) _then) = _$ChatMessageDtoCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'messageId') String messageId,@JsonKey(name: 'text') String text,@JsonKey(name: 'senderUid') String senderUid,@JsonKey(name: 'senderName') String senderName,@JsonKey(name: 'createdAt') String createdAt
+@JsonKey(name: 'messageId') String messageId,@JsonKey(name: 'text') String text,@JsonKey(name: 'senderUid') String senderUid,@JsonKey(name: 'senderName') String senderName,@TimestampConverter()@JsonKey(name: 'createdAt') Timestamp createdAt
 });
 
 
@@ -72,7 +72,7 @@ as String,text: null == text ? _self.text : text // ignore: cast_nullable_to_non
 as String,senderUid: null == senderUid ? _self.senderUid : senderUid // ignore: cast_nullable_to_non_nullable
 as String,senderName: null == senderName ? _self.senderName : senderName // ignore: cast_nullable_to_non_nullable
 as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
-as String,
+as Timestamp,
   ));
 }
 
@@ -157,7 +157,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'messageId')  String messageId, @JsonKey(name: 'text')  String text, @JsonKey(name: 'senderUid')  String senderUid, @JsonKey(name: 'senderName')  String senderName, @JsonKey(name: 'createdAt')  String createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'messageId')  String messageId, @JsonKey(name: 'text')  String text, @JsonKey(name: 'senderUid')  String senderUid, @JsonKey(name: 'senderName')  String senderName, @TimestampConverter()@JsonKey(name: 'createdAt')  Timestamp createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ChatMessageDto() when $default != null:
 return $default(_that.messageId,_that.text,_that.senderUid,_that.senderName,_that.createdAt);case _:
@@ -178,7 +178,7 @@ return $default(_that.messageId,_that.text,_that.senderUid,_that.senderName,_tha
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'messageId')  String messageId, @JsonKey(name: 'text')  String text, @JsonKey(name: 'senderUid')  String senderUid, @JsonKey(name: 'senderName')  String senderName, @JsonKey(name: 'createdAt')  String createdAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'messageId')  String messageId, @JsonKey(name: 'text')  String text, @JsonKey(name: 'senderUid')  String senderUid, @JsonKey(name: 'senderName')  String senderName, @TimestampConverter()@JsonKey(name: 'createdAt')  Timestamp createdAt)  $default,) {final _that = this;
 switch (_that) {
 case _ChatMessageDto():
 return $default(_that.messageId,_that.text,_that.senderUid,_that.senderName,_that.createdAt);case _:
@@ -198,7 +198,7 @@ return $default(_that.messageId,_that.text,_that.senderUid,_that.senderName,_tha
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'messageId')  String messageId, @JsonKey(name: 'text')  String text, @JsonKey(name: 'senderUid')  String senderUid, @JsonKey(name: 'senderName')  String senderName, @JsonKey(name: 'createdAt')  String createdAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'messageId')  String messageId, @JsonKey(name: 'text')  String text, @JsonKey(name: 'senderUid')  String senderUid, @JsonKey(name: 'senderName')  String senderName, @TimestampConverter()@JsonKey(name: 'createdAt')  Timestamp createdAt)?  $default,) {final _that = this;
 switch (_that) {
 case _ChatMessageDto() when $default != null:
 return $default(_that.messageId,_that.text,_that.senderUid,_that.senderName,_that.createdAt);case _:
@@ -213,14 +213,14 @@ return $default(_that.messageId,_that.text,_that.senderUid,_that.senderName,_tha
 @JsonSerializable()
 
 class _ChatMessageDto extends ChatMessageDto {
-  const _ChatMessageDto({@JsonKey(name: 'messageId') required this.messageId, @JsonKey(name: 'text') required this.text, @JsonKey(name: 'senderUid') required this.senderUid, @JsonKey(name: 'senderName') required this.senderName, @JsonKey(name: 'createdAt') required this.createdAt}): super._();
+  const _ChatMessageDto({@JsonKey(name: 'messageId') required this.messageId, @JsonKey(name: 'text') required this.text, @JsonKey(name: 'senderUid') required this.senderUid, @JsonKey(name: 'senderName') required this.senderName, @TimestampConverter()@JsonKey(name: 'createdAt') required this.createdAt}): super._();
   factory _ChatMessageDto.fromJson(Map<String, dynamic> json) => _$ChatMessageDtoFromJson(json);
 
 @override@JsonKey(name: 'messageId') final  String messageId;
 @override@JsonKey(name: 'text') final  String text;
 @override@JsonKey(name: 'senderUid') final  String senderUid;
 @override@JsonKey(name: 'senderName') final  String senderName;
-@override@JsonKey(name: 'createdAt') final  String createdAt;
+@override@TimestampConverter()@JsonKey(name: 'createdAt') final  Timestamp createdAt;
 
 /// Create a copy of ChatMessageDto
 /// with the given fields replaced by the non-null parameter values.
@@ -255,7 +255,7 @@ abstract mixin class _$ChatMessageDtoCopyWith<$Res> implements $ChatMessageDtoCo
   factory _$ChatMessageDtoCopyWith(_ChatMessageDto value, $Res Function(_ChatMessageDto) _then) = __$ChatMessageDtoCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'messageId') String messageId,@JsonKey(name: 'text') String text,@JsonKey(name: 'senderUid') String senderUid,@JsonKey(name: 'senderName') String senderName,@JsonKey(name: 'createdAt') String createdAt
+@JsonKey(name: 'messageId') String messageId,@JsonKey(name: 'text') String text,@JsonKey(name: 'senderUid') String senderUid,@JsonKey(name: 'senderName') String senderName,@TimestampConverter()@JsonKey(name: 'createdAt') Timestamp createdAt
 });
 
 
@@ -279,7 +279,7 @@ as String,text: null == text ? _self.text : text // ignore: cast_nullable_to_non
 as String,senderUid: null == senderUid ? _self.senderUid : senderUid // ignore: cast_nullable_to_non_nullable
 as String,senderName: null == senderName ? _self.senderName : senderName // ignore: cast_nullable_to_non_nullable
 as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
-as String,
+as Timestamp,
   ));
 }
 

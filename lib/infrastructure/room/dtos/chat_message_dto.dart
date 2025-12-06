@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rumour/domain/core/value/value_objects.dart';
 import 'package:rumour/domain/room/entities/chat_message.dart';
+import 'package:rumour/infrastructure/core/utils/timestamp_converter.dart';
 
 part 'chat_message_dto.freezed.dart';
 part 'chat_message_dto.g.dart';
@@ -14,7 +16,9 @@ abstract class ChatMessageDto with _$ChatMessageDto {
     @JsonKey(name: 'text') required String text,
     @JsonKey(name: 'senderUid') required String senderUid,
     @JsonKey(name: 'senderName') required String senderName,
-    @JsonKey(name: 'createdAt') required String createdAt,
+    @TimestampConverter()
+    @JsonKey(name: 'createdAt')
+    required Timestamp createdAt,
   }) = _ChatMessageDto;
 
   factory ChatMessageDto.fromJson(Map<String, dynamic> json) =>
@@ -25,7 +29,7 @@ abstract class ChatMessageDto with _$ChatMessageDto {
     text: StringValue(text),
     senderUid: StringValue(senderUid),
     senderName: StringValue(senderName),
-    createdAt: DateTimeValue(createdAt),
+    createdAt: DateTimeValue(createdAt.toDate().toIso8601String()),
   );
 
   factory ChatMessageDto.fromDomain(ChatMessage msg) => ChatMessageDto(
@@ -33,6 +37,6 @@ abstract class ChatMessageDto with _$ChatMessageDto {
     text: msg.text.getOrCrash(),
     senderUid: msg.senderUid.getOrCrash(),
     senderName: msg.senderName.getOrCrash(),
-    createdAt: msg.createdAt.getOrCrash(),
+    createdAt: Timestamp.fromDate(msg.createdAt.dateTime),
   );
 }

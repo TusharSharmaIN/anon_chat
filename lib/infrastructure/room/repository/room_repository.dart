@@ -62,7 +62,7 @@ class RoomRepository implements IRoomRepository {
       final user = await _getOrSignInUser();
       final dto = await local.get(roomId);
 
-      if (dto.uid.isNotEmpty && dto.name.isNotEmpty) {
+      if (dto != null && dto.uid.isNotEmpty && dto.name.isNotEmpty) {
         return right(dto.toDomain());
       }
 

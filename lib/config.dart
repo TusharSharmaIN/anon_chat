@@ -24,20 +24,4 @@ class Config {
         return base;
     }
   }
-
-  String get baseUrl {
-    switch (appFlavor) {
-      case Flavor.dev:
-      case Flavor.prod:
-        return 'https://api.themoviedb.org/3/';
-    }
-  }
-
-  // String get tmdbAuthToken {
-  //   switch (appFlavor) {
-  //     case Flavor.dev:
-  //     case Flavor.prod:
-  //       return dotenv.env['TMDB_AUTH_TOKEN'] ?? '';
-  //   }
-  // }
 }

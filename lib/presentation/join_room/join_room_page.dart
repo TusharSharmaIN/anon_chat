@@ -22,39 +22,52 @@ class JoinRoomPage extends StatelessWidget {
           context.push(AppRoutes.roomAcknowledge);
         }
       },
-      child: SafeArea(
-        child: Scaffold(
-          body: Stack(
-            children: [
-              Align(alignment: Alignment.topCenter, child: const KeyIcon()),
-              Align(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Join A Room',
-                      style: BaseTextStyles.poppinsHugeBold.copyWith(
+      child: BlocBuilder<RoomBloc, RoomState>(
+        buildWhen: (previous, current) =>
+            previous.isLoading != current.isLoading,
+        builder: (context, state) {
+          return SafeArea(
+            child: Scaffold(
+              body: Stack(
+                children: [
+                  Align(alignment: Alignment.topCenter, child: const KeyIcon()),
+
+                  Align(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Join A Room',
+                          style: BaseTextStyles.poppinsHugeBold.copyWith(
+                            color: BaseColors.primaryColor,
+                            fontSize: 30,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          'Enter the code to join the anon chat\nroom',
+                          style: BaseTextStyles.poppinsLargeRegularBold
+                              .copyWith(color: BaseColors.primaryTextGrey),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 48),
+                        const EnterRoomId(),
+                      ],
+                    ),
+                  ),
+
+                  if (state.isLoading)
+                    const Center(
+                      child: CircularProgressIndicator(
                         color: BaseColors.primaryColor,
-                        fontSize: 30,
-                        fontWeight: FontWeight.w700,
                       ),
                     ),
-                    const SizedBox(height: 16),
-                    Text(
-                      'Enter the code to join the anon chat\nroom',
-                      style: BaseTextStyles.poppinsLargeRegularBold.copyWith(
-                        color: BaseColors.primaryTextGrey,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 48),
-                    EnterRoomId(),
-                  ],
-                ),
+                ],
               ),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -66,8 +79,8 @@ class KeyIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(32),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.all(32),
+      decoration: const BoxDecoration(
         shape: BoxShape.circle,
         color: BaseColors.backgroundGrey,
       ),
