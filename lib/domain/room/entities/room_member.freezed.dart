@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$RoomMember {
 
- StringValue get uid; StringValue get name; DateTimeValue get joinedAt;
+ StringValue get uid; StringValue get name;
 /// Create a copy of RoomMember
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $RoomMemberCopyWith<RoomMember> get copyWith => _$RoomMemberCopyWithImpl<RoomMem
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is RoomMember&&(identical(other.uid, uid) || other.uid == uid)&&(identical(other.name, name) || other.name == name)&&(identical(other.joinedAt, joinedAt) || other.joinedAt == joinedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RoomMember&&(identical(other.uid, uid) || other.uid == uid)&&(identical(other.name, name) || other.name == name));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,uid,name,joinedAt);
+int get hashCode => Object.hash(runtimeType,uid,name);
 
 @override
 String toString() {
-  return 'RoomMember(uid: $uid, name: $name, joinedAt: $joinedAt)';
+  return 'RoomMember(uid: $uid, name: $name)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $RoomMemberCopyWith<$Res>  {
   factory $RoomMemberCopyWith(RoomMember value, $Res Function(RoomMember) _then) = _$RoomMemberCopyWithImpl;
 @useResult
 $Res call({
- StringValue uid, StringValue name, DateTimeValue joinedAt
+ StringValue uid, StringValue name
 });
 
 
@@ -62,12 +62,11 @@ class _$RoomMemberCopyWithImpl<$Res>
 
 /// Create a copy of RoomMember
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? uid = null,Object? name = null,Object? joinedAt = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? uid = null,Object? name = null,}) {
   return _then(_self.copyWith(
 uid: null == uid ? _self.uid : uid // ignore: cast_nullable_to_non_nullable
 as StringValue,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as StringValue,joinedAt: null == joinedAt ? _self.joinedAt : joinedAt // ignore: cast_nullable_to_non_nullable
-as DateTimeValue,
+as StringValue,
   ));
 }
 
@@ -152,10 +151,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( StringValue uid,  StringValue name,  DateTimeValue joinedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( StringValue uid,  StringValue name)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _RoomMember() when $default != null:
-return $default(_that.uid,_that.name,_that.joinedAt);case _:
+return $default(_that.uid,_that.name);case _:
   return orElse();
 
 }
@@ -173,10 +172,10 @@ return $default(_that.uid,_that.name,_that.joinedAt);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( StringValue uid,  StringValue name,  DateTimeValue joinedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( StringValue uid,  StringValue name)  $default,) {final _that = this;
 switch (_that) {
 case _RoomMember():
-return $default(_that.uid,_that.name,_that.joinedAt);case _:
+return $default(_that.uid,_that.name);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -193,10 +192,10 @@ return $default(_that.uid,_that.name,_that.joinedAt);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( StringValue uid,  StringValue name,  DateTimeValue joinedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( StringValue uid,  StringValue name)?  $default,) {final _that = this;
 switch (_that) {
 case _RoomMember() when $default != null:
-return $default(_that.uid,_that.name,_that.joinedAt);case _:
+return $default(_that.uid,_that.name);case _:
   return null;
 
 }
@@ -208,12 +207,11 @@ return $default(_that.uid,_that.name,_that.joinedAt);case _:
 
 
 class _RoomMember extends RoomMember {
-  const _RoomMember({required this.uid, required this.name, required this.joinedAt}): super._();
+  const _RoomMember({required this.uid, required this.name}): super._();
   
 
 @override final  StringValue uid;
 @override final  StringValue name;
-@override final  DateTimeValue joinedAt;
 
 /// Create a copy of RoomMember
 /// with the given fields replaced by the non-null parameter values.
@@ -225,16 +223,16 @@ _$RoomMemberCopyWith<_RoomMember> get copyWith => __$RoomMemberCopyWithImpl<_Roo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RoomMember&&(identical(other.uid, uid) || other.uid == uid)&&(identical(other.name, name) || other.name == name)&&(identical(other.joinedAt, joinedAt) || other.joinedAt == joinedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RoomMember&&(identical(other.uid, uid) || other.uid == uid)&&(identical(other.name, name) || other.name == name));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,uid,name,joinedAt);
+int get hashCode => Object.hash(runtimeType,uid,name);
 
 @override
 String toString() {
-  return 'RoomMember(uid: $uid, name: $name, joinedAt: $joinedAt)';
+  return 'RoomMember(uid: $uid, name: $name)';
 }
 
 
@@ -245,7 +243,7 @@ abstract mixin class _$RoomMemberCopyWith<$Res> implements $RoomMemberCopyWith<$
   factory _$RoomMemberCopyWith(_RoomMember value, $Res Function(_RoomMember) _then) = __$RoomMemberCopyWithImpl;
 @override @useResult
 $Res call({
- StringValue uid, StringValue name, DateTimeValue joinedAt
+ StringValue uid, StringValue name
 });
 
 
@@ -262,12 +260,11 @@ class __$RoomMemberCopyWithImpl<$Res>
 
 /// Create a copy of RoomMember
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? uid = null,Object? name = null,Object? joinedAt = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? uid = null,Object? name = null,}) {
   return _then(_RoomMember(
 uid: null == uid ? _self.uid : uid // ignore: cast_nullable_to_non_nullable
 as StringValue,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as StringValue,joinedAt: null == joinedAt ? _self.joinedAt : joinedAt // ignore: cast_nullable_to_non_nullable
-as DateTimeValue,
+as StringValue,
   ));
 }
 

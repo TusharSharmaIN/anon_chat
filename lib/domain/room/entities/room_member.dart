@@ -10,12 +10,8 @@ abstract class RoomMember with _$RoomMember {
   const factory RoomMember({
     required StringValue uid,
     required StringValue name,
-    required DateTimeValue joinedAt,
   }) = _RoomMember;
 
-  factory RoomMember.empty() => RoomMember(
-    uid: StringValue(''),
-    name: StringValue(''),
-    joinedAt: DateTimeValue(''),
-  );
+  factory RoomMember.empty() =>
+      RoomMember(uid: StringValue(''), name: StringValue(''));
 }

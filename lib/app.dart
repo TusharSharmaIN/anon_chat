@@ -1,6 +1,7 @@
 import 'package:rumour/bloc/bloc/room_bloc.dart';
 import 'package:rumour/config.dart';
 import 'package:rumour/firebase.dart';
+import 'package:rumour/infrastructure/room/datasource/room_local.dart';
 import 'package:rumour/locator.dart';
 import 'package:rumour/presentation/router/route.dart';
 import 'package:rumour/presentation/theme/theme_data.dart';
@@ -14,6 +15,7 @@ Future<void> initialSetup({required Flavor flavor}) async {
   final config = locator<Config>();
   config.appFlavor = flavor;
   await initializeFirebaseApp();
+  await locator<RoomLocalDataSource>().init();
 }
 
 void runAppWith() {

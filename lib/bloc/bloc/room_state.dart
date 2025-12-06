@@ -7,9 +7,16 @@ abstract class RoomState with _$RoomState {
   const factory RoomState({
     required String roomId,
     required bool roomJoined,
+    required bool isLoading,
+    required RoomInfo roomInfo,
     required Option<Either<ApiFailure, dynamic>> apiFailureOrSuccess,
   }) = _RoomState;
 
-  factory RoomState.initial() =>
-      RoomState(roomId: '', roomJoined: false, apiFailureOrSuccess: none());
+  factory RoomState.initial() => RoomState(
+    roomId: '',
+    roomJoined: false,
+    isLoading: false,
+    roomInfo: RoomInfo.empty(),
+    apiFailureOrSuccess: none(),
+  );
 }
