@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:rumour/config.dart';
 import 'package:rumour/firebase_options_prod.dart' as prod;
@@ -11,5 +12,11 @@ Future<void> initializeFirebaseApp() async {
     Flavor.prod => prod.DefaultFirebaseOptions.currentPlatform,
     Flavor.dev => dev.DefaultFirebaseOptions.currentPlatform,
   };
+  
   await Firebase.initializeApp(options: firebaseOptions);
+  
+  // Firestore setup
+  FirebaseFirestore.instance.settings = const Settings(
+    persistenceEnabled: true,
+  );
 }

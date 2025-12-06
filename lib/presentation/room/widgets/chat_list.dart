@@ -3,30 +3,6 @@ part of '../room_page.dart';
 class _ChatList extends StatelessWidget {
   const _ChatList();
 
-  static final List<ChatMessage> _messages = [
-    ChatMessage(
-      id: '1',
-      handle: '@PinkPanthress',
-      text:
-          'Hi all! I came to visit your city for the weekend. Suggest coffee shop for breakfast with family.',
-      time: DateTime.now().subtract(const Duration(hours: 6)),
-      isMe: false,
-    ),
-    ChatMessage(
-      id: '2',
-      handle: 'You',
-      text: 'Hello! Visit a coffee shop on Amaranth st.',
-      time: DateTime.now().subtract(const Duration(hours: 5, minutes: 58)),
-      isMe: true,
-    ),
-  ];
-
-  String _timeLabel(DateTime t) {
-    final h = t.hour.toString().padLeft(2, '0');
-    final m = t.minute.toString().padLeft(2, '0');
-    return '$h:$m';
-  }
-
   String _capText(String txt, [int cap = 260]) {
     if (txt.length <= cap) return txt;
     return '${txt.substring(0, cap)}…';
@@ -34,17 +10,18 @@ class _ChatList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final messages = ChatMessage.dummyMessages;
     return ListView(
       padding: const EdgeInsets.only(bottom: 8),
       children: [
         const SizedBox(height: 8),
         const _DateChip(text: 'Today'),
         const SizedBox(height: 16),
-        for (final m in _messages) ...[
+        for (final m in messages) ...[
           _MessageTile(
-            handle: m.handle,
-            text: _capText(m.text),
-            time: _timeLabel(m.time),
+            handle: m.senderName.getValue(),
+            text: _capText(m.text.getValue()),
+            time: m.createdAt.formattedTime,
             isMe: m.isMe,
           ),
           const SizedBox(height: 12),
