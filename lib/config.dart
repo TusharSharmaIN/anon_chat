@@ -16,7 +16,7 @@ class Config {
   }
 
   String get appName {
-    final base = 'Anon Chat';
+    final base = 'Romour';
     switch (appFlavor) {
       case Flavor.dev:
         return '$base Dev';

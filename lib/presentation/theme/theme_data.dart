@@ -1,4 +1,4 @@
-import 'package:anon_chat/presentation/theme/base_colors.dart';
+import 'package:rumour/presentation/theme/base_colors.dart';
 import 'package:flutter/material.dart';
 
 final appThemeData = ThemeData(

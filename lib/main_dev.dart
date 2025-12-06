@@ -1,5 +1,5 @@
-import 'package:anon_chat/app.dart';
-import 'package:anon_chat/config.dart';
+import 'package:rumour/app.dart';
+import 'package:rumour/config.dart';
 
 Future<void> main() async {
   await initialSetup(flavor: Flavor.dev);

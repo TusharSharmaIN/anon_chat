@@ -1,4 +1,4 @@
-import 'package:anon_chat/presentation/theme/base_colors.dart';
+import 'package:rumour/presentation/theme/base_colors.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 

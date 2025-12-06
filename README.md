@@ -1,4 +1,4 @@
-# anon_chat
+# rumour
 
 A new Flutter project.
 

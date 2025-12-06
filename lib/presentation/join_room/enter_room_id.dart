@@ -1,6 +1,6 @@
-import 'package:anon_chat/bloc/bloc/room_bloc.dart';
-import 'package:anon_chat/presentation/theme/base_colors.dart';
-import 'package:anon_chat/presentation/theme/base_text_styles.dart';
+import 'package:rumour/bloc/bloc/room_bloc.dart';
+import 'package:rumour/presentation/theme/base_colors.dart';
+import 'package:rumour/presentation/theme/base_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinput/pinput.dart';

@@ -1,9 +1,9 @@
-import 'package:anon_chat/bloc/bloc/room_bloc.dart';
-import 'package:anon_chat/presentation/core/utils/assets.dart';
-import 'package:anon_chat/presentation/join_room/enter_room_id.dart';
-import 'package:anon_chat/presentation/router/route.dart';
-import 'package:anon_chat/presentation/theme/base_colors.dart';
-import 'package:anon_chat/presentation/theme/base_text_styles.dart';
+import 'package:rumour/bloc/bloc/room_bloc.dart';
+import 'package:rumour/presentation/core/utils/assets.dart';
+import 'package:rumour/presentation/join_room/enter_room_id.dart';
+import 'package:rumour/presentation/router/route.dart';
+import 'package:rumour/presentation/theme/base_colors.dart';
+import 'package:rumour/presentation/theme/base_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';

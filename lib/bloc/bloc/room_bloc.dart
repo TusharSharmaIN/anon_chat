@@ -1,4 +1,4 @@
-import 'package:anon_chat/domain/core/error/api_failures.dart';
+import 'package:rumour/domain/core/error/api_failures.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

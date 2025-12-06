@@ -1,6 +1,6 @@
-import 'package:anon_chat/presentation/core/custom/custom_icon_button.dart';
-import 'package:anon_chat/presentation/theme/base_colors.dart';
-import 'package:anon_chat/presentation/theme/base_text_styles.dart';
+import 'package:rumour/presentation/core/custom/custom_icon_button.dart';
+import 'package:rumour/presentation/theme/base_colors.dart';
+import 'package:rumour/presentation/theme/base_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
