@@ -1,5 +1,6 @@
 import 'package:pinput/pinput.dart';
 import 'package:rumour/bloc/bloc/room_bloc.dart';
+import 'package:rumour/presentation/core/common/blury_verlay_loader.dart';
 import 'package:rumour/presentation/core/utils/assets.dart';
 import 'package:rumour/presentation/router/route.dart';
 import 'package:rumour/presentation/theme/base_colors.dart';
@@ -60,11 +61,7 @@ class JoinRoomPage extends StatelessWidget {
                   ),
                 ),
                 if (state.isLoading)
-                  const Center(
-                    child: CircularProgressIndicator(
-                      color: BaseColors.primaryColor,
-                    ),
-                  ),
+                  const BlurryLoaderOverlay(message: 'Joining room...'),
               ],
             ),
           ),
