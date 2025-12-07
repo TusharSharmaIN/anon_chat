@@ -14,10 +14,11 @@ class RoomAcknowledgePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RoomBloc, RoomState>(
+      buildWhen: (previous, current) =>
+          previous.currentIdentity != current.currentIdentity,
       builder: (context, state) {
         final roomId = state.roomId;
-        final userName = state.currentIdentity.name.getOrCrash();
-
+        final userName = state.currentIdentity.displayName;
         return SafeArea(
           child: Scaffold(
             backgroundColor: BaseColors.backgroundBlack,

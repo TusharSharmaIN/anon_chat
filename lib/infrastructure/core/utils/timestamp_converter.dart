@@ -6,17 +6,15 @@ class TimestampConverter implements JsonConverter<Timestamp, Object?> {
 
   @override
   Timestamp fromJson(Object? json) {
-    if (json is Timestamp) return json;
-    if (json is Map<String, dynamic>) {
-      // This handles Firestore Emulator format
-      return Timestamp(
-        json['_seconds'] ?? json['seconds'],
-        json['_nanoseconds'] ?? json['nanoseconds'],
-      );
+    if (json == null) {
+      return Timestamp.now();
+    }
+    if (json is Timestamp) {
+      return json;
     }
     throw ArgumentError('Invalid timestamp JSON: $json');
   }
 
   @override
-  Object toJson(Timestamp object) => object;
+  Object toJson(Timestamp timestamp) => timestamp;
 }

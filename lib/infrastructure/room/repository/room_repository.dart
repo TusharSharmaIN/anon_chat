@@ -174,7 +174,7 @@ class RoomRepository implements IRoomRepository {
     for (var i = 0; i < maxAttempts; i++) {
       final adj = adjectives[_random.nextInt(adjectives.length)];
       final animal = animals[_random.nextInt(animals.length)];
-      candidate = '$adj $animal';
+      candidate = '$adj$animal';
       if (!takenNames.contains(candidate)) {
         return candidate;
       }
@@ -182,6 +182,6 @@ class RoomRepository implements IRoomRepository {
 
     return candidate.isNotEmpty
         ? candidate
-        : '${adjectives.first} ${animals.first}';
+        : '${adjectives.first}${animals.first}';
   }
 }

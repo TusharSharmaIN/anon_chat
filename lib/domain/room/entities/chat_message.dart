@@ -23,22 +23,5 @@ abstract class ChatMessage with _$ChatMessage {
     createdAt: DateTimeValue(''),
   );
 
-  static List<ChatMessage> get dummyMessages => [
-    ChatMessage.empty().copyWith(
-      messageId: StringValue('1001'),
-      senderName: StringValue('@PinkPanthress'),
-      text: StringValue(
-        'Hi all! I came to visit your city for the weekend. Suggest coffee shop for breakfast with family.',
-      ),
-      createdAt: DateTimeValue('2023-11-03T15:28:05.250Z'),
-    ),
-    ChatMessage.empty().copyWith(
-      messageId: StringValue('1002'),
-      senderName: StringValue('You'),
-      text: StringValue('Hello! Visit a coffee shop on Amaranth st.'),
-      createdAt: DateTimeValue('2023-11-02T15:28:05.250Z'),
-    ),
-  ];
-
-  bool get isMe => senderName.getValue().toLowerCase() == 'you';
+  bool isSentBy(String myUid) => senderUid.getValue() == myUid;
 }

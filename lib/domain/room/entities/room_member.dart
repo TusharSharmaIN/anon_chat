@@ -14,4 +14,13 @@ abstract class RoomMember with _$RoomMember {
 
   factory RoomMember.empty() =>
       RoomMember(uid: StringValue(''), name: StringValue(''));
+
+  String get displayName {
+    final raw = name.getValue();
+    if (raw.isEmpty) return '';
+    return raw.replaceAllMapped(
+      RegExp(r'(?<!^)([A-Z])'),
+      (m) => ' ${m.group(1)}',
+    );
+  }
 }

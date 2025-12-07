@@ -21,9 +21,13 @@ class _ChatList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RoomBloc, RoomState>(
-      buildWhen: (previous, current) => previous.messages != current.messages,
+      buildWhen: (previous, current) =>
+          previous.messages != current.messages ||
+          previous.currentIdentity.uid != current.currentIdentity.uid,
       builder: (context, state) {
         final messages = state.messages;
+        final myUid = state.currentIdentity.uid.getValue();
+
         if (messages.isEmpty) {
           return ListView(
             padding: const EdgeInsets.only(bottom: 8),
@@ -56,7 +60,7 @@ class _ChatList extends StatelessWidget {
                   handle: m.senderName.getValue(),
                   text: _capText(m.text.getValue()),
                   time: m.createdAt.formattedTime,
-                  isMe: m.isMe,
+                  isMe: m.isSentBy(myUid),
                 ),
                 const SizedBox(height: 12),
               ],
