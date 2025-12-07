@@ -1,4 +1,4 @@
-part of '../room_page.dart';
+part of '../chat_room_page.dart';
 
 class _ChatComposer extends StatefulWidget {
   const _ChatComposer();

@@ -15,8 +15,8 @@ import 'package:flutter_svg/svg.dart';
 part 'widgets/chat_list.dart';
 part 'widgets/chat_composer.dart';
 
-class RoomPage extends StatelessWidget {
-  const RoomPage({super.key});
+class ChatRoomPage extends StatelessWidget {
+  const ChatRoomPage({super.key});
 
   @override
   Widget build(BuildContext context) {

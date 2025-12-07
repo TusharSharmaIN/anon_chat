@@ -118,7 +118,7 @@ class _ContinueCTA extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () {
           context.read<RoomBloc>().add(const RoomEvent.watchMessagesStarted());
-          context.replace(AppRoutes.room);
+          context.replace(AppRoutes.chatRoom);
         },
         child: Text(
           'Acknowledge and continue',
