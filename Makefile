@@ -22,4 +22,4 @@ build_android_dev:
 	@fvm flutter build apk --flavor dev -t lib/main_dev.dart --release --obfuscate --split-debug-info=./debug-info/dev
 
 build_android_prod:
-	@fvm flutter build appbundle --flavor prod -t lib/main_prod.dart --release --obfuscate --split-debug-info=./debug-info/prod
+	@fvm flutter build apk --flavor prod -t lib/main_prod.dart --release --obfuscate --split-debug-info=./debug-info/prod
