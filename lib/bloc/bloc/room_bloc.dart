@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:rumour/domain/core/error/api_failures.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rumour/domain/core/error/api_failures.dart';
 import 'package:rumour/domain/core/value/value_objects.dart';
 import 'package:rumour/domain/room/entities/chat_message.dart';
 import 'package:rumour/domain/room/entities/room_info.dart';
@@ -14,9 +14,11 @@ part 'room_event.dart';
 part 'room_state.dart';
 part 'room_bloc.freezed.dart';
 
+typedef MessagesTuple = (String, Either<ApiFailure, List<ChatMessage>>);
+
 class RoomBloc extends Bloc<RoomEvent, RoomState> {
   final IRoomRepository roomRepository;
-  StreamSubscription<Either<ApiFailure, List<ChatMessage>>>? messagesSub;
+  StreamSubscription<MessagesTuple>? messagesSub;
 
   RoomBloc({required this.roomRepository}) : super(RoomState.initial()) {
     on<RoomEvent>(_onEvent);
@@ -25,13 +27,17 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
   Future<void> _onEvent(RoomEvent event, Emitter<RoomState> emit) async {
     await event.map(
       init: (_) async {
+        await messagesSub?.cancel();
+        messagesSub = null;
         emit(RoomState.initial());
       },
       onRoomIdEntered: (e) async {
-        final value = e.value.trim();
-        final isValid = RegExp(r'^\d{6}$').hasMatch(value);
+        emit(state.copyWith(enteredRoomId: e.value));
 
-        if (!isValid) {
+        final value = e.value.trim();
+        final valid = RegExp(r'^\d{6}$').hasMatch(value);
+
+        if (!valid) {
           emit(
             state.copyWith(
               apiFailureOrSuccess: optionOf(
@@ -41,28 +47,41 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
           );
           return;
         }
-        emit(state.copyWith(isLoading: true, apiFailureOrSuccess: none()));
-        final failureOrSuccess = await roomRepository.joinRoom(value);
 
-        failureOrSuccess.fold(
+        emit(
+          state.copyWith(
+            isLoading: true,
+            roomJoined: false,
+            apiFailureOrSuccess: none(),
+          ),
+        );
+
+        final result = await roomRepository.joinRoom(value);
+
+        result.fold(
           (failure) {
             emit(
               state.copyWith(
                 isLoading: false,
-                apiFailureOrSuccess: optionOf(failureOrSuccess),
+                apiFailureOrSuccess: optionOf(result),
               ),
             );
           },
-          (result) {
-            final roomInfo = result.$1;
-            final identity = result.$2;
+          (joined) {
+            final roomInfo = joined.$1;
+            final identity = joined.$2;
+
             emit(
               state.copyWith(
                 isLoading: false,
-                roomId: value,
                 roomJoined: true,
+                roomId: value,
                 roomInfo: roomInfo,
                 currentIdentity: identity,
+                messages: [],
+                oldestMessage: ChatMessage.empty(),
+                hasMore: true,
+                isLoadingMore: false,
                 apiFailureOrSuccess: none(),
               ),
             );
@@ -70,15 +89,30 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
         );
       },
       watchMessagesStarted: (_) async {
-        if (state.roomId.isEmpty) return;
+        final roomId = state.roomId;
+        if (roomId.isEmpty) return;
+
         await messagesSub?.cancel();
-        messagesSub = roomRepository.watchMessages(state.roomId).listen((
-          failureOrMessages,
-        ) {
-          add(RoomEvent.messagesReceived(failureOrMessages: failureOrMessages));
+        messagesSub = null;
+
+        emit(
+          state.copyWith(
+            messages: [],
+            oldestMessage: ChatMessage.empty(),
+            hasMore: true,
+          ),
+        );
+
+        messagesSub = roomRepository.watchMessages(roomId).listen((tuple) {
+          final id = tuple.$1;
+          final data = tuple.$2;
+
+          add(RoomEvent.messagesReceived(roomId: id, failureOrMessages: data));
         });
       },
       messagesReceived: (e) async {
+        if (e.roomId != state.roomId) return;
+
         e.failureOrMessages.fold(
           (failure) {
             emit(
@@ -88,15 +122,8 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
             );
           },
           (messages) {
-            // Only update oldestMessage on first stream load
-            final oldest = state.oldestMessage;
             emit(
-              state.copyWith(
-                messages: messages,
-                oldestMessage: oldest,
-                hasMore: true, // reset on new room load
-                apiFailureOrSuccess: none(),
-              ),
+              state.copyWith(messages: messages, apiFailureOrSuccess: none()),
             );
           },
         );
@@ -109,7 +136,7 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
         final identity = state.currentIdentity;
         if (!identity.uid.isNotEmpty || !identity.name.isNotEmpty) return;
 
-        final message = ChatMessage(
+        final msg = ChatMessage(
           messageId: StringValue(
             DateTime.now().microsecondsSinceEpoch.toString(),
           ),
@@ -117,14 +144,13 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
           senderUid: identity.uid,
           senderName: identity.name,
           createdAt: DateTimeValue(DateTime.now().toIso8601String()),
-          // isMe: true,
         );
 
         emit(state.copyWith(apiFailureOrSuccess: none()));
 
         final result = await roomRepository.sendMessage(
           roomId: state.roomId,
-          message: message,
+          message: msg,
         );
 
         result.fold(
@@ -137,21 +163,21 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
         );
       },
       loadMoreMessages: (e) async {
-        if (!state.hasMore || state.isLoadingMore || state.roomId.isEmpty) {
+        if (!state.hasMore ||
+            state.isLoadingMore ||
+            state.roomId.isEmpty ||
+            state.messages.isEmpty) {
           return;
         }
 
-        final currentOldest = state.messages.isEmpty
-            ? null
-            : state.messages.first.createdAt.dateTime;
-
-        if (currentOldest == null) return;
+        final roomId = state.roomId;
+        final before = state.messages.first.createdAt.dateTime;
 
         emit(state.copyWith(isLoadingMore: true));
 
         final result = await roomRepository.fetchOlderMessages(
-          roomId: state.roomId,
-          before: currentOldest,
+          roomId: roomId,
+          before: before,
           limit: 20,
         );
 
@@ -167,9 +193,7 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
                 messages: updated,
                 isLoadingMore: false,
                 hasMore: older.length == 20,
-                oldestMessage: updated.isNotEmpty
-                    ? updated.first
-                    : state.oldestMessage,
+                oldestMessage: updated.first,
               ),
             );
           },

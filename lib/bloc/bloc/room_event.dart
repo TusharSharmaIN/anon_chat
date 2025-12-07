@@ -12,6 +12,7 @@ class RoomEvent with _$RoomEvent {
   const factory RoomEvent.watchMessagesStarted() = _WatchMessagesStarted;
 
   const factory RoomEvent.messagesReceived({
+    required String roomId,
     required Either<ApiFailure, List<ChatMessage>> failureOrMessages,
   }) = _MessagesReceived;
 

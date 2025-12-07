@@ -13,39 +13,49 @@ class RoomAcknowledgePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RoomBloc, RoomState>(
-      buildWhen: (previous, current) =>
-          previous.currentIdentity != current.currentIdentity,
-      builder: (context, state) {
-        final roomId = state.roomId;
-        final userName = state.currentIdentity.displayName;
-        return SafeArea(
-          child: Scaffold(
-            backgroundColor: BaseColors.backgroundBlack,
-            body: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  CustomAppBar(title: 'Room #$roomId'),
-                  const Spacer(),
-                  _IdentityCard(userName: userName),
-                  const SizedBox(height: 48),
-                  _ContinueCTA(),
-                  const SizedBox(height: 16),
-                ],
-              ),
+    return PopScope(
+      canPop: true,
+      onPopInvokedWithResult: (didPop, result) {
+        // Called for system back + navigator pops
+        context.read<RoomBloc>().add(const RoomEvent.init());
+
+        // If it didn't actually pop, force a pop
+        if (!didPop) {
+          context.pop();
+        }
+      },
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: BaseColors.backgroundBlack,
+          body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                BlocBuilder<RoomBloc, RoomState>(
+                  buildWhen: (previous, current) =>
+                      previous.currentIdentity != current.currentIdentity,
+                  builder: (context, state) {
+                    final roomId = state.roomId;
+                    return CustomAppBar(title: 'Room #$roomId');
+                  },
+                ),
+                const Spacer(),
+                _IdentityCard(),
+                const SizedBox(height: 48),
+                _ContinueCTA(),
+                const SizedBox(height: 16),
+              ],
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }
 
 class _IdentityCard extends StatelessWidget {
-  final String userName;
-  const _IdentityCard({required this.userName});
+  const _IdentityCard();
 
   @override
   Widget build(BuildContext context) {
@@ -70,13 +80,20 @@ class _IdentityCard extends StatelessWidget {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ).createShader(bounds),
-            child: Text(
-              userName,
-              style: BaseTextStyles.poppinsHugeHeavyBold.copyWith(
-                fontSize: 60,
-                color: Colors.white,
-              ),
-              textAlign: TextAlign.center,
+            child: BlocBuilder<RoomBloc, RoomState>(
+              buildWhen: (previous, current) =>
+                  previous.currentIdentity != current.currentIdentity,
+              builder: (context, state) {
+                final userName = state.currentIdentity.displayName;
+                return Text(
+                  userName,
+                  style: BaseTextStyles.poppinsHugeHeavyBold.copyWith(
+                    fontSize: 60,
+                    color: Colors.white,
+                  ),
+                  textAlign: TextAlign.center,
+                );
+              },
             ),
           ),
           const SizedBox(height: 16),

@@ -5,6 +5,7 @@ abstract class RoomState with _$RoomState {
   const RoomState._();
 
   const factory RoomState({
+    required String enteredRoomId,
     required String roomId,
     required bool roomJoined,
     required bool isLoading,
@@ -18,6 +19,7 @@ abstract class RoomState with _$RoomState {
   }) = _RoomState;
 
   factory RoomState.initial() => RoomState(
+    enteredRoomId: '',
     roomId: '',
     roomJoined: false,
     isLoading: false,

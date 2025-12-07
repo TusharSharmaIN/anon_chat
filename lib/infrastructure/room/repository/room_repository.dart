@@ -111,17 +111,25 @@ class RoomRepository implements IRoomRepository {
   }
 
   @override
-  Stream<Either<ApiFailure, List<ChatMessage>>> watchMessages(
+  Stream<(String roomId, Either<ApiFailure, List<ChatMessage>>)> watchMessages(
     String roomId,
-  ) async* {
-    try {
-      await for (final dtoList in remote.watchMessages(roomId)) {
-        final messages = dtoList.map((e) => e.toDomain()).toList();
-        yield right(messages);
+  ) {
+    return remote.watchMessages(roomId).map((tuple) {
+      final id = tuple.$1;
+      final dtoList = tuple.$2;
+
+      try {
+        final domain = dtoList.map((e) => e.toDomain()).toList();
+        return (id, right<ApiFailure, List<ChatMessage>>(domain));
+      } catch (e) {
+        return (
+          id,
+          left<ApiFailure, List<ChatMessage>>(
+            ApiFailure.serverError(e.toString()),
+          ),
+        );
       }
-    } catch (e) {
-      yield left(ApiFailure.serverError(e.toString()));
-    }
+    });
   }
 
   @override

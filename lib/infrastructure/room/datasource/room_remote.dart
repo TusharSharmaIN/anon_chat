@@ -59,18 +59,22 @@ class RoomRemoteDataSource {
     });
   }
 
-  Stream<List<ChatMessageDto>> watchMessages(String roomId) {
+  Stream<(String roomId, List<ChatMessageDto> messages)> watchMessages(
+    String roomId,
+  ) {
     return firestore
         .collection('rooms')
         .doc(roomId)
         .collection('messages')
         .orderBy('createdAt', descending: false)
         .snapshots()
-        .map(
-          (snapshot) => snapshot.docs
+        .map((snapshot) {
+          final msgs = snapshot.docs
               .map((doc) => ChatMessageDto.fromJson(doc.data()))
-              .toList(),
-        );
+              .toList();
+
+          return (roomId, msgs);
+        });
   }
 
   Future<List<ChatMessageDto>> fetchOlderMessages({

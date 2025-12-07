@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:rumour/bloc/bloc/room_bloc.dart';
 import 'package:rumour/domain/core/error/api_failures.dart';
 import 'package:rumour/domain/room/entities/chat_message.dart';
 import 'package:rumour/domain/room/entities/room_info.dart';
@@ -16,7 +17,7 @@ abstract class IRoomRepository {
     required ChatMessage message,
   });
 
-  Stream<Either<ApiFailure, List<ChatMessage>>> watchMessages(String roomId);
+  Stream<MessagesTuple> watchMessages(String roomId);
 
   Future<Either<ApiFailure, List<ChatMessage>>> fetchOlderMessages({
     required String roomId,

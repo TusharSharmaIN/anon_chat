@@ -1,12 +1,26 @@
-import 'package:rumour/bloc/bloc/room_bloc.dart';
-import 'package:rumour/presentation/theme/base_colors.dart';
-import 'package:rumour/presentation/theme/base_text_styles.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pinput/pinput.dart';
+part of 'join_room_page.dart';
 
-class EnterRoomId extends StatelessWidget {
-  const EnterRoomId({super.key});
+class _EnterRoomId extends StatefulWidget {
+  const _EnterRoomId();
+
+  @override
+  State<_EnterRoomId> createState() => _EnterRoomIdState();
+}
+
+class _EnterRoomIdState extends State<_EnterRoomId> {
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,28 +62,37 @@ class EnterRoomId extends StatelessWidget {
       ),
     );
 
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 32),
-      decoration: BoxDecoration(
-        color: BaseColors.backgroundGrey,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Pinput(
-        length: 6,
-        pinAnimationType: PinAnimationType.slide,
-        showCursor: true,
-        defaultPinTheme: defaultPinTheme,
-        cursor: cursor,
-        isCursorAnimationEnabled: false,
-        preFilledWidget: preFilledWidget,
-        onChanged: (value) {
-          context.read<RoomBloc>().add(
-            RoomEvent.onRoomIdEntered(
-              field: RoomBlocFieldType.roomId,
-              value: value,
-            ),
-          );
-        },
+    return BlocListener<RoomBloc, RoomState>(
+      listenWhen: (prev, curr) =>
+          prev.enteredRoomId != curr.enteredRoomId &&
+          curr.enteredRoomId.isEmpty,
+      listener: (_, state) {
+        _controller.clear();
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 32),
+        decoration: BoxDecoration(
+          color: BaseColors.backgroundGrey,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Pinput(
+          length: 6,
+          pinAnimationType: PinAnimationType.slide,
+          showCursor: true,
+          defaultPinTheme: defaultPinTheme,
+          cursor: cursor,
+          isCursorAnimationEnabled: false,
+          preFilledWidget: preFilledWidget,
+          controller: _controller,
+          onChanged: (value) {
+            context.read<RoomBloc>().add(
+              RoomEvent.onRoomIdEntered(
+                field: RoomBlocFieldType.roomId,
+                value: value,
+              ),
+            );
+          },
+        ),
       ),
     );
   }
