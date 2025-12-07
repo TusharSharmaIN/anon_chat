@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,6 +7,7 @@ import 'package:rumour/domain/room/entities/chat_message.dart';
 import 'package:rumour/domain/room/entities/room_info.dart';
 import 'package:rumour/domain/room/entities/room_member.dart';
 import 'package:rumour/domain/room/repository/i_room_repository.dart';
+import 'package:rumour/infrastructure/core/utils/identity_name_pool.dart';
 import 'package:rumour/infrastructure/room/datasource/room_local.dart';
 import 'package:rumour/infrastructure/room/datasource/room_remote.dart';
 import 'package:rumour/infrastructure/room/dtos/chat_message_dto.dart';
@@ -19,7 +18,6 @@ class RoomRepository implements IRoomRepository {
   final RoomRemoteDataSource remote;
   final RoomLocalDataSource local;
   final FirebaseAuth firebaseAuth;
-  final Random _random = Random();
 
   RoomRepository({
     required this.remote,
@@ -179,46 +177,6 @@ class RoomRepository implements IRoomRepository {
   }
 
   String _generateDisplayName(Set<String> takenNames) {
-    const adjectives = [
-      'Brave',
-      'Calm',
-      'Silent',
-      'Curious',
-      'Gentle',
-      'Bold',
-      'Swift',
-      'Lucky',
-      'Quiet',
-      'Mellow',
-    ];
-
-    const animals = [
-      'Badger',
-      'Fox',
-      'Tiger',
-      'Sparrow',
-      'Panda',
-      'Otter',
-      'Wolf',
-      'Falcon',
-      'Hawk',
-      'Whale',
-    ];
-
-    const maxAttempts = 20;
-    String candidate = '';
-
-    for (var i = 0; i < maxAttempts; i++) {
-      final adj = adjectives[_random.nextInt(adjectives.length)];
-      final animal = animals[_random.nextInt(animals.length)];
-      candidate = '$adj$animal';
-      if (!takenNames.contains(candidate)) {
-        return candidate;
-      }
-    }
-
-    return candidate.isNotEmpty
-        ? candidate
-        : '${adjectives.first}${animals.first}';
+    return IdentityNamePool.generate(takenNames);
   }
 }

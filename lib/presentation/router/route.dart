@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:rumour/presentation/join_room/join_room_page.dart';
 import 'package:rumour/presentation/room_acknowledge/room_acknowledge_page.dart';
-import 'package:rumour/presentation/room/chat_room_page.dart';
+import 'package:rumour/presentation/chat_room/chat_room_page.dart';
 import 'package:go_router/go_router.dart';
 
 final RouteObserver<ModalRoute<void>> routeObserver =

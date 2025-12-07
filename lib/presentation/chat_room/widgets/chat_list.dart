@@ -23,6 +23,18 @@ class _ChatListState extends State<_ChatList> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Auto scroll when keyboard opens
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final bottomInset = MediaQuery.of(context).viewInsets.bottom;
+      if (bottomInset > 0) {
+        _scrollToBottom();
+      }
+    });
+  }
+
+  @override
   void dispose() {
     _controller.dispose();
     super.dispose();

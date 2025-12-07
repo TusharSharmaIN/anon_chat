@@ -30,13 +30,20 @@ class _ChatComposerState extends State<_ChatComposer> {
 
   void _onSend() {
     if (!_canSend) return;
-
     final text = _controller.text.trim();
     if (text.isEmpty) return;
-
+    
     context.read<RoomBloc>().add(RoomEvent.sendMessagePressed(text: text));
-
+    
     _controller.clear();
+    
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Scrollable.ensureVisible(
+        context,
+        duration: const Duration(milliseconds: 150),
+        alignment: 1.0,
+      );
+    });
   }
 
   @override

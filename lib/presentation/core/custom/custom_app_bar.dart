@@ -58,13 +58,17 @@ class AppBarBackCTA extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
       padding: padding,
+      decoration: const BoxDecoration(
+        color: BaseColors.ebonyClay,
+        shape: BoxShape.circle,
+      ),
       child: CustomIconButton(
         onPressed: () => _onPressed(context),
         icon: const Icon(
           Icons.arrow_back_ios_rounded,
-          size: 32,
+          size: 24,
           weight: 16,
           color: BaseColors.white,
         ),

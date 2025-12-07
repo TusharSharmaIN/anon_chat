@@ -23,14 +23,15 @@ class ChatRoomPage extends StatelessWidget {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
-        // Called for system back + navigator pops
         context.read<RoomBloc>().add(const RoomEvent.init());
         context.go(AppRoutes.joinRoomPage);
       },
-      child: SafeArea(
-        child: Scaffold(
-          backgroundColor: BaseColors.backgroundBlack,
-          body: Padding(
+      child: Scaffold(
+        resizeToAvoidBottomInset: true, // ⭐ IMPORTANT FIX
+        backgroundColor: BaseColors.backgroundBlack,
+
+        body: SafeArea(
+          child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Column(
               children: [
