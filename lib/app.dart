@@ -12,8 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 Future<void> initialSetup({required Flavor flavor}) async {
   WidgetsFlutterBinding.ensureInitialized();
   setupLocator();
-  final config = locator<Config>();
-  config.appFlavor = flavor;
+  locator<Config>().appFlavor = flavor;
   await initializeFirebaseApp();
   await locator<RoomLocalDataSource>().init();
 }
