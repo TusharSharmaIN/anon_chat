@@ -15,11 +15,21 @@ jobs:
       - run: echo "Starting workflow for releasing build"
       - uses: actions/checkout@v5
 
-      - name: Setup Flutter & build APK
+      - name: Read version from pubspec.yaml
+        id: version
+        run: |
+          VERSION_LINE=$(grep '^version:' pubspec.yaml | awk '{print $2}')
+          VERSION_NUMBER=$(echo $VERSION_LINE | cut -d'+' -f1)
+          BUILD_NUMBER=$(echo $VERSION_LINE | cut -d'+' -f2)
+          echo "version_number=$VERSION_NUMBER" >> $GITHUB_OUTPUT
+          echo "build_number=$BUILD_NUMBER" >> $GITHUB_OUTPUT
+
+      - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.32.7'
           channel: 'stable'
+
       - run: flutter --version
       - run: flutter clean
       - run: flutter pub get
@@ -30,9 +40,10 @@ jobs:
         with:
           name: tortoise-assignment.apk
           path: build/app/outputs/flutter-apk/app-prod-release.apk
-      
+
       - name: Create a Release APK
         uses: ncipollo/release-action@v1
         with:
           artifacts: build/app/outputs/flutter-apk/app-prod-release.apk
           token: ${{ secrets.GITHUB_TOKEN }}
+          tag: "v${{ steps.version.outputs.version_number }}(${{ steps.version.outputs.build_number }})-${{ github.run_number }}"
