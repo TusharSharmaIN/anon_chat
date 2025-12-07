@@ -5,8 +5,8 @@ permissions:
 
 on:
   push:
-    branches:
-      - main
+    tags:
+    - v*
 
 jobs:
   build:
@@ -14,15 +14,6 @@ jobs:
     steps:
       - run: echo "Starting workflow for releasing build"
       - uses: actions/checkout@v5
-
-      - name: Read version from pubspec.yaml
-        id: version
-        run: |
-          VERSION_LINE=$(grep '^version:' pubspec.yaml | awk '{print $2}')
-          VERSION_NUMBER=$(echo $VERSION_LINE | cut -d'+' -f1)
-          BUILD_NUMBER=$(echo $VERSION_LINE | cut -d'+' -f2)
-          echo "version_number=$VERSION_NUMBER" >> $GITHUB_OUTPUT
-          echo "build_number=$BUILD_NUMBER" >> $GITHUB_OUTPUT
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -33,12 +24,12 @@ jobs:
       - run: flutter --version
       - run: flutter clean
       - run: flutter pub get
-      - run: flutter build apk --release --flavor prod -t lib/main_prod.dart
+      - run: flutter build apk --flavor prod -t lib/main_prod.dart --release --obfuscate --split-debug-info=./debug-info/prod
 
       - name: Upload apk build as an Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: tortoise-assignment.apk
+          name: app-prod-release.apk
           path: build/app/outputs/flutter-apk/app-prod-release.apk
 
       - name: Create a Release APK
@@ -46,4 +37,3 @@ jobs:
         with:
           artifacts: build/app/outputs/flutter-apk/app-prod-release.apk
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag: "v${{ steps.version.outputs.version_number }}(${{ steps.version.outputs.build_number }})-${{ github.run_number }}"
