@@ -8,16 +8,6 @@ class _ChatList extends StatelessWidget {
     return '${txt.substring(0, cap)}…';
   }
 
-  String _dateLabel(DateTime date) {
-    final now = DateTime.now();
-    final today = DateTime(now.year, now.month, now.day);
-    final thatDay = DateTime(date.year, date.month, date.day);
-    final diff = today.difference(thatDay).inDays;
-    if (diff == 0) return 'Today';
-    if (diff == 1) return 'Yesterday';
-    return DateFormat('dd MMM yyyy').format(date);
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RoomBloc, RoomState>(
@@ -35,27 +25,24 @@ class _ChatList extends StatelessWidget {
           );
         }
 
-        final grouped = <String, List<ChatMessage>>{};
+        final grouped = <DateTime, List<ChatMessage>>{};
         for (final m in messages) {
-          final label = _dateLabel(m.createdAt.dateTime);
-          grouped.putIfAbsent(label, () => []).add(m);
+          final key = m.createdAt.dayKey;
+          grouped.putIfAbsent(key, () => []).add(m);
         }
 
-        final dayLabels = grouped.keys.toList()
-          ..sort((a, b) {
-            final da = grouped[a]!.first.createdAt.dateTime;
-            final db = grouped[b]!.first.createdAt.dateTime;
-            return da.compareTo(db);
-          });
+        final dayKeys = grouped.keys.toList()..sort((a, b) => a.compareTo(b));
 
         return ListView(
           padding: const EdgeInsets.only(bottom: 8),
           children: [
             const SizedBox(height: 8),
-            for (final label in dayLabels) ...[
-              _DateChip(text: label),
+            for (final dayKey in dayKeys) ...[
+              _DateChip(
+                text: DateTimeValue(dayKey.toIso8601String()).labeledDate,
+              ),
               const SizedBox(height: 16),
-              for (final m in grouped[label]!) ...[
+              for (final m in grouped[dayKey]!) ...[
                 _MessageTile(
                   handle: m.senderName.getValue(),
                   text: _capText(m.text.getValue()),

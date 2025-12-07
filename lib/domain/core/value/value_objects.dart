@@ -71,17 +71,6 @@ class DateTimeValue extends ValueObject<String> {
     return DateTimeValue._(validateStringNotEmpty(input));
   }
 
-  /// Create a DateTimeValue from a numeric timestamp string (milliseconds
-  /// since epoch). The input is validated and converted to an ISO8601 string
-  /// using: `DateTime.fromMillisecondsSinceEpoch(timestamp.toInt()).toIso8601String()`.
-  factory DateTimeValue.fromTimestamp(String input) {
-    return DateTimeValue._(validateTimestampString(input));
-  }
-
-  factory DateTimeValue.fromUnixTimestamp(String input) {
-    return DateTimeValue._(validateUnixTimestampString(input));
-  }
-
   const DateTimeValue._(this.value);
 
   /// Raw parsed DateTime (in local time).
@@ -91,12 +80,9 @@ class DateTimeValue extends ValueObject<String> {
 
   bool get isNotEmpty => value.getOrElse(() => '').isNotEmpty;
 
-  /// Returns e.g. “2 years ago”, “7 months ago”, “5 minutes ago”, or “just now”.
-  String get timeAgo => formatTimeAgo(dateTime);
-
-  /// If you still need absolute formatting elsewhere, you can wire them
-  /// back in here:
-  String get formattedDate => DateFormat('dd MMM yyyy').format(dateTime);
-
   String get formattedTime => DateFormat('HH:mm a').format(dateTime);
+
+  String get labeledDate => getLabeledDate(dateTime);
+
+  DateTime get dayKey => DateTime(dateTime.year, dateTime.month, dateTime.day);
 }

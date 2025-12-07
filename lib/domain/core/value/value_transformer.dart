@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 String stringCapitalize(String text) {
   if (text.isEmpty) return '';
@@ -50,4 +51,22 @@ String formatTimeAgo(DateTime date) {
     return '${diff.inSeconds} seconds ago';
   }
   return 'just now';
+}
+
+String getLabeledDate(DateTime date) {
+  final now = DateTime.now();
+  // Create DateTimes that ignore time information for accurate day comparison
+  final today = DateTime(now.year, now.month, now.day);
+  final thatDay = DateTime(date.year, date.month, date.day);
+
+  final diff = today.difference(thatDay).inDays;
+
+  if (diff == 0) {
+    return 'Today';
+  } else if (diff == 1) {
+    return 'Yesterday';
+  } else {
+    // Reuses the existing format logic defined in the formattedDate getter
+    return DateFormat('dd MMM yyyy').format(date);
+  }
 }
