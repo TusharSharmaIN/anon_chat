@@ -72,4 +72,23 @@ class RoomRemoteDataSource {
               .toList(),
         );
   }
+
+  Future<List<ChatMessageDto>> fetchOlderMessages({
+    required String roomId,
+    required Timestamp before,
+    required int limit,
+  }) async {
+    final snapshot = await firestore
+        .collection('rooms')
+        .doc(roomId)
+        .collection('messages')
+        .orderBy('createdAt', descending: false)
+        .endBefore([before])
+        .limitToLast(limit)
+        .get();
+
+    return snapshot.docs
+        .map((doc) => ChatMessageDto.fromJson(doc.data()))
+        .toList();
+  }
 }

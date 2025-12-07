@@ -1,7 +1,55 @@
 part of '../room_page.dart';
 
-class _ChatList extends StatelessWidget {
+class _ChatList extends StatefulWidget {
   const _ChatList();
+
+  @override
+  State<_ChatList> createState() => _ChatListState();
+}
+
+class _ChatListState extends State<_ChatList> {
+  final ScrollController _controller = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<RoomBloc>().add(const RoomEvent.watchMessagesStarted());
+    _controller.addListener(() {
+      if (_controller.position.pixels <=
+          _controller.position.minScrollExtent + 60) {
+        context.read<RoomBloc>().add(const RoomEvent.loadMoreMessages());
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  bool get _isNearBottom {
+    if (!_controller.hasClients) return true;
+
+    final max = _controller.position.maxScrollExtent;
+    final offset = _controller.position.pixels;
+    return (max - offset) <= 80;
+  }
+
+  void _scrollToBottom() {
+    if (!_controller.hasClients) return;
+    if (!_isNearBottom) return;
+
+    Future.delayed(const Duration(milliseconds: 30), () {
+      if (_controller.hasClients) {
+        _controller.animateTo(
+          _controller.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 220),
+          curve: Curves.easeOut,
+        );
+      }
+    });
+  }
 
   String _capText(String txt, [int cap = 260]) {
     if (txt.length <= cap) return txt;
@@ -10,51 +58,57 @@ class _ChatList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RoomBloc, RoomState>(
-      buildWhen: (previous, current) =>
-          previous.messages != current.messages ||
-          previous.currentIdentity.uid != current.currentIdentity.uid,
-      builder: (context, state) {
-        final messages = state.messages;
-        final myUid = state.currentIdentity.uid.getValue();
+    return BlocListener<RoomBloc, RoomState>(
+      listenWhen: (p, c) => p.messages != c.messages,
+      listener: (_, __) => _scrollToBottom(),
+      child: BlocBuilder<RoomBloc, RoomState>(
+        buildWhen: (previous, current) =>
+            previous.messages != current.messages ||
+            previous.currentIdentity.uid != current.currentIdentity.uid,
+        builder: (context, state) {
+          final messages = state.messages;
+          final myUid = state.currentIdentity.uid.getValue();
 
-        if (messages.isEmpty) {
+          if (messages.isEmpty) {
+            return ListView(
+              controller: _controller,
+              padding: const EdgeInsets.only(bottom: 8),
+              children: const [SizedBox(height: 8)],
+            );
+          }
+
+          final grouped = <DateTime, List<ChatMessage>>{};
+          for (final m in messages) {
+            final key = m.createdAt.dayKey;
+            grouped.putIfAbsent(key, () => []).add(m);
+          }
+
+          final dayKeys = grouped.keys.toList()..sort((a, b) => a.compareTo(b));
+
           return ListView(
+            controller: _controller,
             padding: const EdgeInsets.only(bottom: 8),
-            children: const [SizedBox(height: 8)],
-          );
-        }
-
-        final grouped = <DateTime, List<ChatMessage>>{};
-        for (final m in messages) {
-          final key = m.createdAt.dayKey;
-          grouped.putIfAbsent(key, () => []).add(m);
-        }
-
-        final dayKeys = grouped.keys.toList()..sort((a, b) => a.compareTo(b));
-
-        return ListView(
-          padding: const EdgeInsets.only(bottom: 8),
-          children: [
-            const SizedBox(height: 8),
-            for (final dayKey in dayKeys) ...[
-              _DateChip(
-                text: DateTimeValue(dayKey.toIso8601String()).labeledDate,
-              ),
-              const SizedBox(height: 16),
-              for (final m in grouped[dayKey]!) ...[
-                _MessageTile(
-                  handle: m.senderName.getValue(),
-                  text: _capText(m.text.getValue()),
-                  time: m.createdAt.formattedTime,
-                  isMe: m.isSentBy(myUid),
+            children: [
+              const SizedBox(height: 8),
+              for (final dayKey in dayKeys) ...[
+                _DateChip(
+                  text: DateTimeValue(dayKey.toIso8601String()).labeledDate,
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 16),
+                for (final m in grouped[dayKey]!) ...[
+                  _MessageTile(
+                    handle: m.senderName.getValue(),
+                    text: _capText(m.text.getValue()),
+                    time: m.createdAt.formattedTime,
+                    isMe: m.isSentBy(myUid),
+                  ),
+                  const SizedBox(height: 12),
+                ],
               ],
             ],
-          ],
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

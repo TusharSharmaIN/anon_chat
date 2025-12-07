@@ -31,7 +31,6 @@ class JoinRoomPage extends StatelessWidget {
               body: Stack(
                 children: [
                   Align(alignment: Alignment.topCenter, child: const KeyIcon()),
-
                   Align(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -56,7 +55,6 @@ class JoinRoomPage extends StatelessWidget {
                       ],
                     ),
                   ),
-
                   if (state.isLoading)
                     const Center(
                       child: CircularProgressIndicator(

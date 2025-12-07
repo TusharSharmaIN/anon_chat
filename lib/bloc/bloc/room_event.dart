@@ -17,6 +17,8 @@ class RoomEvent with _$RoomEvent {
 
   const factory RoomEvent.sendMessagePressed({required String text}) =
       _SendMessagePressed;
+
+  const factory RoomEvent.loadMoreMessages() = _LoadMoreMessages;
 }
 
 enum RoomBlocFieldType { roomId }

@@ -34,7 +34,7 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
         if (!isValid) {
           emit(
             state.copyWith(
-              apiFailureOrSuccess: some(
+              apiFailureOrSuccess: optionOf(
                 left(const ApiFailure.other('Invalid Room ID')),
               ),
             ),
@@ -49,7 +49,7 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
             emit(
               state.copyWith(
                 isLoading: false,
-                apiFailureOrSuccess: some(left(failure)),
+                apiFailureOrSuccess: optionOf(failureOrSuccess),
               ),
             );
           },
@@ -63,7 +63,7 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
                 roomJoined: true,
                 roomInfo: roomInfo,
                 currentIdentity: identity,
-                apiFailureOrSuccess: some(right(roomInfo)),
+                apiFailureOrSuccess: none(),
               ),
             );
           },
@@ -81,11 +81,22 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
       messagesReceived: (e) async {
         e.failureOrMessages.fold(
           (failure) {
-            emit(state.copyWith(apiFailureOrSuccess: some(left(failure))));
+            emit(
+              state.copyWith(
+                apiFailureOrSuccess: optionOf(e.failureOrMessages),
+              ),
+            );
           },
           (messages) {
+            // Only update oldestMessage on first stream load
+            final oldest = state.oldestMessage;
             emit(
-              state.copyWith(messages: messages, apiFailureOrSuccess: none()),
+              state.copyWith(
+                messages: messages,
+                oldestMessage: oldest,
+                hasMore: true, // reset on new room load
+                apiFailureOrSuccess: none(),
+              ),
             );
           },
         );
@@ -118,10 +129,49 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
 
         result.fold(
           (failure) {
-            emit(state.copyWith(apiFailureOrSuccess: some(left(failure))));
+            emit(state.copyWith(apiFailureOrSuccess: optionOf(result)));
           },
           (_) {
-            emit(state.copyWith(apiFailureOrSuccess: some(right(unit))));
+            emit(state.copyWith(apiFailureOrSuccess: none()));
+          },
+        );
+      },
+      loadMoreMessages: (e) async {
+        if (!state.hasMore || state.isLoadingMore || state.roomId.isEmpty) {
+          return;
+        }
+
+        final currentOldest = state.messages.isEmpty
+            ? null
+            : state.messages.first.createdAt.dateTime;
+
+        if (currentOldest == null) return;
+
+        emit(state.copyWith(isLoadingMore: true));
+
+        final result = await roomRepository.fetchOlderMessages(
+          roomId: state.roomId,
+          before: currentOldest,
+          limit: 20,
+        );
+
+        result.fold(
+          (failure) {
+            emit(state.copyWith(isLoadingMore: false));
+          },
+          (older) {
+            final updated = [...older, ...state.messages];
+
+            emit(
+              state.copyWith(
+                messages: updated,
+                isLoadingMore: false,
+                hasMore: older.length == 20,
+                oldestMessage: updated.isNotEmpty
+                    ? updated.first
+                    : state.oldestMessage,
+              ),
+            );
           },
         );
       },

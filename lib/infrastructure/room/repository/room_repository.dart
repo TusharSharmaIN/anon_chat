@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rumour/domain/core/error/api_failures.dart';
@@ -110,11 +111,39 @@ class RoomRepository implements IRoomRepository {
   }
 
   @override
-  Stream<Either<ApiFailure, List<ChatMessage>>> watchMessages(String roomId) {
-    return remote.watchMessages(roomId).map((dtoList) {
+  Stream<Either<ApiFailure, List<ChatMessage>>> watchMessages(
+    String roomId,
+  ) async* {
+    try {
+      await for (final dtoList in remote.watchMessages(roomId)) {
+        final messages = dtoList.map((e) => e.toDomain()).toList();
+        yield right(messages);
+      }
+    } catch (e) {
+      yield left(ApiFailure.serverError(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<ApiFailure, List<ChatMessage>>> fetchOlderMessages({
+    required String roomId,
+    required DateTime before,
+    required int limit,
+  }) async {
+    try {
+      final ts = Timestamp.fromDate(before.toUtc());
+
+      final dtoList = await remote.fetchOlderMessages(
+        roomId: roomId,
+        before: ts,
+        limit: limit,
+      );
+
       final messages = dtoList.map((e) => e.toDomain()).toList();
-      return right<ApiFailure, List<ChatMessage>>(messages);
-    });
+      return right(messages);
+    } catch (e) {
+      return left(ApiFailure.serverError(e.toString()));
+    }
   }
 
   Future<User> _getOrSignInUser() async {

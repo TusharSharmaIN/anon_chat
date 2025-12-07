@@ -16,6 +16,11 @@ abstract class IRoomRepository {
     required ChatMessage message,
   });
 
-  /// Real-time message stream (simple first — pagination later)
   Stream<Either<ApiFailure, List<ChatMessage>>> watchMessages(String roomId);
+
+  Future<Either<ApiFailure, List<ChatMessage>>> fetchOlderMessages({
+    required String roomId,
+    required DateTime before,
+    required int limit,
+  });
 }

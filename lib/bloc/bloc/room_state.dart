@@ -11,6 +11,9 @@ abstract class RoomState with _$RoomState {
     required RoomInfo roomInfo,
     required RoomMember currentIdentity,
     required List<ChatMessage> messages,
+    required bool hasMore,
+    required bool isLoadingMore,
+    required ChatMessage oldestMessage,
     required Option<Either<ApiFailure, dynamic>> apiFailureOrSuccess,
   }) = _RoomState;
 
@@ -20,7 +23,10 @@ abstract class RoomState with _$RoomState {
     isLoading: false,
     roomInfo: RoomInfo.empty(),
     currentIdentity: RoomMember.empty(),
-    messages: const [],
+    messages: const <ChatMessage>[],
+    hasMore: false,
+    isLoadingMore: false,
+    oldestMessage: ChatMessage.empty(),
     apiFailureOrSuccess: none(),
   );
 }

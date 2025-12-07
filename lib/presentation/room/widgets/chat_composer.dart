@@ -9,6 +9,18 @@ class _ChatComposer extends StatefulWidget {
 
 class _ChatComposerState extends State<_ChatComposer> {
   final _controller = TextEditingController();
+  bool _canSend = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.addListener(() {
+      final hasText = _controller.text.trim().isNotEmpty;
+      if (hasText != _canSend) {
+        setState(() => _canSend = hasText);
+      }
+    });
+  }
 
   @override
   void dispose() {
@@ -17,10 +29,13 @@ class _ChatComposerState extends State<_ChatComposer> {
   }
 
   void _onSend() {
+    if (!_canSend) return;
+
     final text = _controller.text.trim();
     if (text.isEmpty) return;
 
     context.read<RoomBloc>().add(RoomEvent.sendMessagePressed(text: text));
+
     _controller.clear();
   }
 
@@ -53,16 +68,19 @@ class _ChatComposerState extends State<_ChatComposer> {
           ),
         ),
         const SizedBox(width: 12),
-        Container(
-          width: 52,
-          height: 52,
-          decoration: const BoxDecoration(
-            color: BaseColors.primaryGreen,
-            shape: BoxShape.circle,
-          ),
-          child: CustomIconButton(
-            onPressed: _onSend,
-            icon: SvgPicture.asset(Assets.sendArrow),
+        Opacity(
+          opacity: _canSend ? 1.0 : 0.35,
+          child: Container(
+            width: 52,
+            height: 52,
+            decoration: const BoxDecoration(
+              color: BaseColors.primaryGreen,
+              shape: BoxShape.circle,
+            ),
+            child: CustomIconButton(
+              onPressed: _canSend ? _onSend : null,
+              icon: SvgPicture.asset(Assets.sendArrow),
+            ),
           ),
         ),
       ],
